@@ -2,15 +2,15 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches: ['main', 'dev']
+    branches: ['main']
   pull_request:
-    branches: ['main', 'dev']
+    branches: ['main']
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  SVR_NAME: ${{ github.event.repository.name }}
+  SVR_NAME: shipany-template-two
 
 jobs:
   build-and-push:

@@ -1,21 +1,7 @@
 import packageJson from '../../package.json';
 
-// Load .env files for scripts (tsx/ts-node) - but NOT in Edge Runtime or browser
-// This ensures scripts can read DATABASE_URL and other env vars
-// Check for real Node.js environment by looking at global 'process' properties
-if (
-  typeof process !== 'undefined' &&
-  typeof process.cwd === 'function' &&
-  !process.env.NEXT_RUNTIME // Skip if in Next.js runtime (already loaded)
-) {
-  try {
-    const dotenv = require('dotenv');
-    dotenv.config({ path: '.env.development' });
-    dotenv.config({ path: '.env', override: false });
-  } catch (e) {
-    // Silently fail - dotenv might not be available in some environments
-  }
-}
+// Note: Environment variables are loaded via dotenv-cli in package.json scripts.
+// Next.js automatically loads .env files in the runtime, so no manual loading is needed here.
 
 export type ConfigMap = Record<string, string>;
 
@@ -31,7 +17,9 @@ export const envConfigs: ConfigMap = {
   appearance: process.env.NEXT_PUBLIC_APPEARANCE ?? 'system',
   locale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'en',
   database_url: process.env.DATABASE_URL ?? '',
+  database_auth_token: process.env.DATABASE_AUTH_TOKEN ?? '',
   database_provider: process.env.DATABASE_PROVIDER ?? 'postgresql',
+  db_schema_file: process.env.DB_SCHEMA_FILE ?? './src/config/db/schema.ts',
   // PostgreSQL schema name (e.g. 'web'). Default: 'public'
   db_schema: process.env.DB_SCHEMA ?? 'public',
   // Drizzle migrations journal table name (avoid conflicts across projects)

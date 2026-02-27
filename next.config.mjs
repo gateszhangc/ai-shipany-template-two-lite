@@ -1,51 +1,62 @@
+import bundleAnalyzer from '@next/bundle-analyzer';
+import { createMDX } from 'fumadocs-mdx/next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withMDX = createMDX();
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+const withNextIntl = createNextIntlPlugin({
+  requestConfig: './src/core/i18n/request.ts',
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configure `pageExtensions` to include markdown and MDX files
-  // https://nextjs.org/docs/pages/building-your-application/configuring/mdx
-  // pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-
-  // https://nextjs.org/docs/pages/api-reference/next-config-js/reactStrictMode
-  // if enabled, new-verification-form will trigger twice and seems buggy in dev mode,
-  // but it's not a problem in production, so you can try to comment it out and let it go.
-  // reactStrictMode: false,
-
-  // https://nextjs.org/docs/architecture/nextjs-compiler#remove-console
-  // Remove all console.* calls in production only
-  compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
-  },
-
+  output: process.env.VERCEL ? undefined : 'standalone',
+  reactStrictMode: false,
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   images: {
-    // https://vercel.com/docs/image-optimization/managing-image-optimization-costs#minimizing-image-optimization-costs
-    // vercel has limits on image optimization, 1000 images per month
-    unoptimized: true,
-    // https://medium.com/@niniroula/nextjs-upgrade-next-image-and-dangerouslyallowsvg-c934060d79f8
-    // The requested resource "https://cdn.sanity.io/images/58a2mkbj/preview/xxx.svg?fit=max&auto=format" has type "image/svg+xml"
-    // but dangerouslyAllowSVG is disabled
-    dangerouslyAllowSVG: true,
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    qualities: [60, 70, 75],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "randomuser.me",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.sanity.io", // https://www.sanity.io/learn/course/day-one-with-sanity-studio/bringing-content-to-a-next-js-front-end
-      },
-      {
-        protocol: "https",
-        hostname: "via.placeholder.com", // https://www.sanity.io/learn/course/day-one-with-sanity-studio/bringing-content-to-a-next-js-front-end
+        protocol: 'https',
+        hostname: '*',
       },
     ],
   },
+  async redirects() {
+    return [];
+  },
+  async headers() {
+    return [
+      {
+        source: '/imgs/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+  turbopack: {
+    resolveAlias: {
+      // fs: {
+      //   browser: './empty.ts', // We recommend to fix code imports before using this method
+      // },
+    },
+  },
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+    // Disable mdxRs for Vercel deployment compatibility with fumadocs-mdx
+    ...(process.env.VERCEL ? {} : { mdxRs: true }),
+  },
+  reactCompiler: true,
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(withNextIntl(withMDX(nextConfig)));

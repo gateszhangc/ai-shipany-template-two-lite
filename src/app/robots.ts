@@ -1,15 +1,25 @@
-import { siteConfig } from "@/config/site";
-import type { MetadataRoute } from "next";
+import { MetadataRoute } from 'next';
 
-/**
- * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
- */
+import { envConfigs } from '@/config';
+
 export default function robots(): MetadataRoute.Robots {
+  const appUrl = envConfigs.app_url;
+
   return {
     rules: {
-      userAgent: "*",
-      allow: "/",
+      userAgent: '*',
+      allow: '/',
+      disallow: [
+        '/*?*q=',
+        '/privacy-policy',
+        '/terms-of-service',
+        '/settings/*',
+        '/activity/*',
+        '/admin/*',
+        '/api/*',
+      ],
     },
-    sitemap: `${siteConfig.url}/sitemap.xml`,
+    sitemap: `${appUrl}/sitemap.xml`,
   };
 }
+

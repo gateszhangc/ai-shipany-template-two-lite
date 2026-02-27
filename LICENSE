@@ -1,77 +1,41 @@
-ShipAny AI SaaS Boilerplate License Agreement
+Mkdirs License
 
-TL;DR;
-Personal License: Build unlimited AI SaaS products as an individual developer.
-Team License: Build unlimited AI SaaS products as a team.
+Personal, Team, or Organization License
 
-This License Agreement ("Agreement") is made between ShipAny ("Licensor"), and you ("Licensee"), concerning the use of ShipAny AI SaaS Boilerplate ("Product"). By using the Product, you agree to these terms.
+Mkdirs grants you an ongoing, non-exclusive license to use the software components and templates included in the SaaS Starter Kit.
 
-1. License Types and Rights
+The license permits usage by a single individual, team, or organization (the Licensee) and does not transfer to additional individuals, teams, or organizations without explicit permission.
 
-1.1 Personal License
+You can:
 
-ShipAny grants you a Personal License that includes:
+- Use Mkdirs to create unlimited end products.
+- Modify Mkdirs components to create derivative works, subject to this license.
+- Use Mkdirs to create projects for unlimited clients.
+- Use Mkdirs to create end products sold to end users.
+- Use Mkdirs to build and run SaaS applications where end users interact with your end product.
 
-- Development of unlimited AI SaaS applications
-- Use of all included AI service templates and components
-- Commercial usage rights for your developed applications
-- Access to basic documentation and community support
+You cannot:
 
-  1.2 Team License
+- Redistribute Mkdirs’s components or templates, even if modified, separately from an end product.
+- Share your access to Mkdirs with anyone outside your team or organization without explicit permission.
+- Use Mkdirs to create products that compete with Mkdirs or provide a SaaS starter kit in conflict with Mkdirs’s business.
 
-ShipAny grants you a Team License that includes:
+Example Usage
 
-- All Personal License features
-- Team collaboration capabilities
-- Premium AI integration templates
-- Enterprise-ready features and configurations
-- Priority technical support
-- Advanced AI service implementation guides
+Examples of permitted usage:
 
-2. Usage Restrictions
+- Creating personal, team, or organizational websites or applications.
+- Building commercial SaaS applications or web apps for clients.
 
-You agree not to:
+Examples of prohibited usage:
 
-- Resell the boilerplate code as a standalone product
-- Share license keys or access credentials
-- Remove ShipAny attribution and copyright notices
-- Redistribute the source code publicly
-- Create competing AI boilerplate products
-- Use the code in violation of any laws or regulations
+- Creating a repository of Mkdirs (components) and sharing or selling it.
+- Making a derivative product (e.g. starter kit) and offering it for sale or free.
 
-3. Intellectual Property
+Enforcement and Liability
 
-The Product, including all source code, documentation, and AI integration templates, remains the exclusive property of ShipAny. Your license grants you usage rights but not ownership of the Product.
+Mkdirs reserves the right to revoke licenses in case of a material breach of this agreement. The liability of Mkdirs is limited to the refund of the license fee. This agreement is governed by the laws of Switzerland.
 
-4. Warranty Disclaimer
+Questions?
 
-The Product is provided "as is" without warranty. ShipAny does not guarantee that the Product will meet your specific requirements or be error-free.
-
-5. Liability Limitations
-
-ShipAny shall not be liable for any damages arising from:
-
-- Use or inability to use the Product
-- Integration with third-party AI services
-- Data processing or AI model operations
-- Service interruptions or failures
-
-6. Term and Termination
-
-ShipAny may terminate your license if you breach this Agreement. Upon termination, you must cease using the Product and destroy all copies.
-
-7. Support and Updates
-
-- Personal License includes community support
-- Team License includes priority email support
-- Updates and improvements are provided at ShipAny's discretion
-
-8. General Provisions
-
-This Agreement is governed by the laws of Singapore. Any disputes shall be resolved in the courts of Singapore.
-
-Last Updated: [2025-10-14]
-
-ShipAny
-Website: https://shipany.ai
-Contact: support@shipany.ai
+Unsure if your use case is covered by the license? Email us at support@Mkdirs.com with your questions.

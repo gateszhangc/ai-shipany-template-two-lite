@@ -1,18 +1,11 @@
-/**
- * SQLite schema definitions.
- *
- * This is the SQLite dialect of the database schema.
- * To use: set DATABASE_PROVIDER=sqlite in .env.local
- */
-
 import { sql } from 'drizzle-orm';
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
+// SQLite has no schema concept like Postgres. Keep a `table` alias to minimize diff with pg schema.
 const table = sqliteTable;
 
+// SQLite "now" in epoch milliseconds (same expression drizzle used in `defaultNow()`).
 const sqliteNowMs = sql`(cast((julianday('now') - 2440587.5)*86400000 as integer))`;
-
-// ─── Auth ────────────────────────────────────────────────────────────────────
 
 export const user = table(
   'user',
@@ -29,14 +22,17 @@ export const user = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
+    // Track first-touch acquisition channel (e.g. google, twitter, newsletter)
     utmSource: text('utm_source').notNull().default(''),
     ip: text('ip').notNull().default(''),
     locale: text('locale').notNull().default(''),
   },
   (table) => [
+    // Search users by name in admin dashboard
     index('idx_user_name').on(table.name),
+    // Order users by registration time for latest users list
     index('idx_user_created_at').on(table.createdAt),
   ]
 );
@@ -52,7 +48,7 @@ export const session = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     ipAddress: text('ip_address'),
     userAgent: text('user_agent'),
@@ -61,6 +57,8 @@ export const session = table(
       .references(() => user.id, { onDelete: 'cascade' }),
   },
   (table) => [
+    // Composite: Query user sessions and filter by expiration
+    // Can also be used for: WHERE userId = ? (left-prefix)
     index('idx_session_user_expires').on(table.userId, table.expiresAt),
   ]
 );
@@ -77,8 +75,12 @@ export const account = table(
     accessToken: text('access_token'),
     refreshToken: text('refresh_token'),
     idToken: text('id_token'),
-    accessTokenExpiresAt: integer('access_token_expires_at', { mode: 'timestamp_ms' }),
-    refreshTokenExpiresAt: integer('refresh_token_expires_at', { mode: 'timestamp_ms' }),
+    accessTokenExpiresAt: integer('access_token_expires_at', {
+      mode: 'timestamp_ms',
+    }),
+    refreshTokenExpiresAt: integer('refresh_token_expires_at', {
+      mode: 'timestamp_ms',
+    }),
     scope: text('scope'),
     password: text('password'),
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
@@ -86,11 +88,14 @@ export const account = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
   (table) => [
+    // Query all linked accounts for a user
     index('idx_account_user_id').on(table.userId),
+    // Composite: OAuth login (most critical)
+    // Can also be used for: WHERE providerId = ? (left-prefix)
     index('idx_account_provider_account').on(table.providerId, table.accountId),
   ]
 );
@@ -107,15 +112,14 @@ export const verification = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
   (table) => [
+    // Find verification code by identifier (e.g., find code by email)
     index('idx_verification_identifier').on(table.identifier),
   ]
 );
-
-// ─── Content ─────────────────────────────────────────────────────────────────
 
 export const config = table('config', {
   name: text('name').unique().notNull(),
@@ -142,12 +146,14 @@ export const taxonomy = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
     sort: integer('sort').default(0).notNull(),
   },
   (table) => [
+    // Composite: Query taxonomies by type and status
+    // Can also be used for: WHERE type = ? (left-prefix)
     index('idx_taxonomy_type_status').on(table.type, table.status),
   ]
 );
@@ -176,17 +182,17 @@ export const post = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
     sort: integer('sort').default(0).notNull(),
   },
   (table) => [
+    // Composite: Query posts by type and status
+    // Can also be used for: WHERE type = ? (left-prefix)
     index('idx_post_type_status').on(table.type, table.status),
   ]
 );
-
-// ─── Business ────────────────────────────────────────────────────────────────
 
 export const order = table(
   'order',
@@ -196,60 +202,65 @@ export const order = table(
     userId: text('user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
-    userEmail: text('user_email'),
-    status: text('status').notNull(),
-    amount: integer('amount').notNull(),
-    currency: text('currency').notNull(),
+    userEmail: text('user_email'), // checkout user email
+    status: text('status').notNull(), // created, paid, failed
+    amount: integer('amount').notNull(), // checkout amount in cents
+    currency: text('currency').notNull(), // checkout currency
     productId: text('product_id'),
-    paymentType: text('payment_type'),
-    paymentInterval: text('payment_interval'),
+    paymentType: text('payment_type'), // one_time, subscription
+    paymentInterval: text('payment_interval'), // day, week, month, year
     paymentProvider: text('payment_provider').notNull(),
     paymentSessionId: text('payment_session_id'),
-    checkoutInfo: text('checkout_info').notNull(),
-    checkoutResult: text('checkout_result'),
-    paymentResult: text('payment_result'),
-    discountCode: text('discount_code'),
-    discountAmount: integer('discount_amount'),
-    discountCurrency: text('discount_currency'),
-    paymentEmail: text('payment_email'),
-    paymentAmount: integer('payment_amount'),
-    paymentCurrency: text('payment_currency'),
-    paidAt: integer('paid_at', { mode: 'timestamp_ms' }),
+    checkoutInfo: text('checkout_info').notNull(), // checkout request info
+    checkoutResult: text('checkout_result'), // checkout result
+    paymentResult: text('payment_result'), // payment result
+    discountCode: text('discount_code'), // discount code
+    discountAmount: integer('discount_amount'), // discount amount in cents
+    discountCurrency: text('discount_currency'), // discount currency
+    paymentEmail: text('payment_email'), // actual payment email
+    paymentAmount: integer('payment_amount'), // actual payment amount
+    paymentCurrency: text('payment_currency'), // actual payment currency
+    paidAt: integer('paid_at', { mode: 'timestamp_ms' }), // paid at
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
-    description: text('description'),
-    productName: text('product_name'),
-    subscriptionId: text('subscription_id'),
-    subscriptionResult: text('subscription_result'),
-    checkoutUrl: text('checkout_url'),
-    callbackUrl: text('callback_url'),
-    creditsAmount: integer('credits_amount'),
-    creditsValidDays: integer('credits_valid_days'),
-    planName: text('plan_name'),
-    paymentProductId: text('payment_product_id'),
+    description: text('description'), // order description
+    productName: text('product_name'), // product name
+    subscriptionId: text('subscription_id'), // provider subscription id
+    subscriptionResult: text('subscription_result'), // provider subscription result
+    checkoutUrl: text('checkout_url'), // checkout url
+    callbackUrl: text('callback_url'), // callback url, after handle callback
+    creditsAmount: integer('credits_amount'), // credits amount
+    creditsValidDays: integer('credits_valid_days'), // credits validity days
+    planName: text('plan_name'), // subscription plan name
+    paymentProductId: text('payment_product_id'), // payment product id
     invoiceId: text('invoice_id'),
     invoiceUrl: text('invoice_url'),
-    subscriptionNo: text('subscription_no'),
-    transactionId: text('transaction_id'),
-    paymentUserName: text('payment_user_name'),
-    paymentUserId: text('payment_user_id'),
+    subscriptionNo: text('subscription_no'), // order subscription no
+    transactionId: text('transaction_id'), // payment transaction id
+    paymentUserName: text('payment_user_name'), // payment user name
+    paymentUserId: text('payment_user_id'), // payment user id
   },
   (table) => [
+    // Composite: Query user orders by status (most common)
+    // Can also be used for: WHERE userId = ? (left-prefix)
     index('idx_order_user_status_payment_type').on(
       table.userId,
       table.status,
       table.paymentType
     ),
+    // Composite: Prevent duplicate payments
+    // Can also be used for: WHERE transactionId = ? (left-prefix)
     index('idx_order_transaction_provider').on(
       table.transactionId,
       table.paymentProvider
     ),
+    // Order orders by creation time for listing
     index('idx_order_created_at').on(table.createdAt),
   ]
 );
@@ -258,54 +269,61 @@ export const subscription = table(
   'subscription',
   {
     id: text('id').primaryKey(),
-    subscriptionNo: text('subscription_no').unique().notNull(),
+    subscriptionNo: text('subscription_no').unique().notNull(), // subscription no
     userId: text('user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
-    userEmail: text('user_email'),
-    status: text('status').notNull(),
+    userEmail: text('user_email'), // subscription user email
+    status: text('status').notNull(), // subscription status
     paymentProvider: text('payment_provider').notNull(),
-    subscriptionId: text('subscription_id').notNull(),
-    subscriptionResult: text('subscription_result'),
-    productId: text('product_id'),
-    description: text('description'),
-    amount: integer('amount'),
-    currency: text('currency'),
-    interval: text('interval'),
-    intervalCount: integer('interval_count'),
-    trialPeriodDays: integer('trial_period_days'),
-    currentPeriodStart: integer('current_period_start', { mode: 'timestamp_ms' }),
-    currentPeriodEnd: integer('current_period_end', { mode: 'timestamp_ms' }),
+    subscriptionId: text('subscription_id').notNull(), // provider subscription id
+    subscriptionResult: text('subscription_result'), // provider subscription result
+    productId: text('product_id'), // product id
+    description: text('description'), // subscription description
+    amount: integer('amount'), // subscription amount
+    currency: text('currency'), // subscription currency
+    interval: text('interval'), // subscription interval, day, week, month, year
+    intervalCount: integer('interval_count'), // subscription interval count
+    trialPeriodDays: integer('trial_period_days'), // subscription trial period days
+    currentPeriodStart: integer('current_period_start', {
+      mode: 'timestamp_ms',
+    }), // subscription current period start
+    currentPeriodEnd: integer('current_period_end', { mode: 'timestamp_ms' }), // subscription current period end
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
     planName: text('plan_name'),
     billingUrl: text('billing_url'),
-    productName: text('product_name'),
-    creditsAmount: integer('credits_amount'),
-    creditsValidDays: integer('credits_valid_days'),
-    paymentProductId: text('payment_product_id'),
-    paymentUserId: text('payment_user_id'),
-    canceledAt: integer('canceled_at', { mode: 'timestamp_ms' }),
-    canceledEndAt: integer('canceled_end_at', { mode: 'timestamp_ms' }),
-    canceledReason: text('canceled_reason'),
-    canceledReasonType: text('canceled_reason_type'),
+    productName: text('product_name'), // subscription product name
+    creditsAmount: integer('credits_amount'), // subscription credits amount
+    creditsValidDays: integer('credits_valid_days'), // subscription credits valid days
+    paymentProductId: text('payment_product_id'), // subscription payment product id
+    paymentUserId: text('payment_user_id'), // subscription payment user id
+    canceledAt: integer('canceled_at', { mode: 'timestamp_ms' }), // subscription canceled apply at
+    canceledEndAt: integer('canceled_end_at', { mode: 'timestamp_ms' }), // subscription canceled end at
+    canceledReason: text('canceled_reason'), // subscription canceled reason
+    canceledReasonType: text('canceled_reason_type'), // subscription canceled reason type
   },
   (table) => [
+    // Composite: Query user's subscriptions by status (most common)
+    // Can also be used for: WHERE userId = ? (left-prefix)
     index('idx_subscription_user_status_interval').on(
       table.userId,
       table.status,
       table.interval
     ),
+    // Composite: Prevent duplicate subscriptions
+    // Can also be used for: WHERE paymentProvider = ? (left-prefix)
     index('idx_subscription_provider_id').on(
       table.subscriptionId,
       table.paymentProvider
     ),
+    // Order subscriptions by creation time for listing
     index('idx_subscription_created_at').on(table.createdAt),
   ]
 );
@@ -316,30 +334,34 @@ export const credit = table(
     id: text('id').primaryKey(),
     userId: text('user_id')
       .notNull()
-      .references(() => user.id, { onDelete: 'cascade' }),
-    userEmail: text('user_email'),
-    orderNo: text('order_no'),
-    subscriptionNo: text('subscription_no'),
-    transactionNo: text('transaction_no').unique().notNull(),
-    transactionType: text('transaction_type').notNull(),
-    transactionScene: text('transaction_scene'),
-    credits: integer('credits').notNull(),
-    remainingCredits: integer('remaining_credits').notNull().default(0),
-    description: text('description'),
-    expiresAt: integer('expires_at', { mode: 'timestamp_ms' }),
-    status: text('status').notNull(),
+      .references(() => user.id, { onDelete: 'cascade' }), // user id
+    userEmail: text('user_email'), // user email
+    orderNo: text('order_no'), // payment order no
+    subscriptionNo: text('subscription_no'), // subscription no
+    transactionNo: text('transaction_no').unique().notNull(), // transaction no
+    transactionType: text('transaction_type').notNull(), // transaction type, grant / consume
+    transactionScene: text('transaction_scene'), // transaction scene, payment / subscription / gift / award
+    credits: integer('credits').notNull(), // credits amount, n or -n
+    remainingCredits: integer('remaining_credits').notNull().default(0), // remaining credits amount
+    description: text('description'), // transaction description
+    expiresAt: integer('expires_at', { mode: 'timestamp_ms' }), // transaction expires at
+    status: text('status').notNull(), // transaction status
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
-    consumedDetail: text('consumed_detail'),
-    metadata: text('metadata'),
+    consumedDetail: text('consumed_detail'), // consumed detail
+    metadata: text('metadata'), // transaction metadata
   },
   (table) => [
+    // Critical composite index for credit consumption (FIFO queue)
+    // Query: WHERE userId = ? AND transactionType = 'grant' AND status = 'active'
+    //        AND remainingCredits > 0 ORDER BY expiresAt
+    // Can also be used for: WHERE userId = ? (left-prefix)
     index('idx_credit_consume_fifo').on(
       table.userId,
       table.status,
@@ -347,7 +369,9 @@ export const credit = table(
       table.remainingCredits,
       table.expiresAt
     ),
+    // Query credits by order number
     index('idx_credit_order_no').on(table.orderNo),
+    // Query credits by subscription number
     index('idx_credit_subscription_no').on(table.subscriptionNo),
   ]
 );
@@ -359,8 +383,7 @@ export const apikey = table(
     userId: text('user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
-    keyHash: text('key_hash').notNull(),
-    keyPrefix: text('key_prefix').notNull(),
+    key: text('key').notNull(),
     title: text('title').notNull(),
     status: text('status').notNull(),
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
@@ -368,23 +391,26 @@ export const apikey = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
   },
   (table) => [
+    // Composite: Query user's API keys by status
+    // Can also be used for: WHERE userId = ? (left-prefix)
     index('idx_apikey_user_status').on(table.userId, table.status),
-    index('idx_apikey_keyhash_status').on(table.keyHash, table.status),
+    // Composite: Validate active API key (most common for auth)
+    // Can also be used for: WHERE key = ? (left-prefix)
+    index('idx_apikey_key_status').on(table.key, table.status),
   ]
 );
 
-// ─── RBAC ────────────────────────────────────────────────────────────────────
-
+// RBAC Tables
 export const role = table(
   'role',
   {
     id: text('id').primaryKey(),
-    name: text('name').notNull().unique(),
+    name: text('name').notNull().unique(), // admin, editor, viewer
     title: text('title').notNull(),
     description: text('description'),
     status: text('status').notNull(),
@@ -393,11 +419,12 @@ export const role = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     sort: integer('sort').default(0).notNull(),
   },
   (table) => [
+    // Query active roles
     index('idx_role_status').on(table.status),
   ]
 );
@@ -406,9 +433,9 @@ export const permission = table(
   'permission',
   {
     id: text('id').primaryKey(),
-    code: text('code').notNull().unique(),
-    resource: text('resource').notNull(),
-    action: text('action').notNull(),
+    code: text('code').notNull().unique(), // admin.users.read, admin.posts.write
+    resource: text('resource').notNull(), // users, posts, categories
+    action: text('action').notNull(), // read, write, delete
     title: text('title').notNull(),
     description: text('description'),
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
@@ -416,10 +443,12 @@ export const permission = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
   (table) => [
+    // Composite: Query permissions by resource and action
+    // Can also be used for: WHERE resource = ? (left-prefix)
     index('idx_permission_resource_action').on(table.resource, table.action),
   ]
 );
@@ -439,11 +468,13 @@ export const rolePermission = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
   },
   (table) => [
+    // Composite: Query permissions for a role
+    // Can also be used for: WHERE roleId = ? (left-prefix)
     index('idx_role_permission_role_permission').on(
       table.roleId,
       table.permissionId
@@ -466,16 +497,16 @@ export const userRole = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     expiresAt: integer('expires_at', { mode: 'timestamp_ms' }),
   },
   (table) => [
+    // Composite: Query user's active roles (most critical for auth)
+    // Can also be used for: WHERE userId = ? (left-prefix)
     index('idx_user_role_user_expires').on(table.userId, table.expiresAt),
   ]
 );
-
-// ─── AI ──────────────────────────────────────────────────────────────────────
 
 export const aiTask = table(
   'ai_task',
@@ -495,18 +526,22 @@ export const aiTask = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     deletedAt: integer('deleted_at', { mode: 'timestamp_ms' }),
-    taskId: text('task_id'),
-    taskInfo: text('task_info'),
-    taskResult: text('task_result'),
+    taskId: text('task_id'), // provider task id
+    taskInfo: text('task_info'), // provider task info
+    taskResult: text('task_result'), // provider task result
     costCredits: integer('cost_credits').notNull().default(0),
     scene: text('scene').notNull().default(''),
-    creditId: text('credit_id'),
+    creditId: text('credit_id'), // credit consumption record id
   },
   (table) => [
+    // Composite: Query user's AI tasks by status
+    // Can also be used for: WHERE userId = ? (left-prefix)
     index('idx_ai_task_user_media_type').on(table.userId, table.mediaType),
+    // Composite: Query user's AI tasks by media type and provider
+    // Can also be used for: WHERE mediaType = ? AND provider = ? (left-prefix)
     index('idx_ai_task_media_type_status').on(table.mediaType, table.status),
   ]
 );
@@ -524,7 +559,7 @@ export const chat = table(
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .default(sqliteNowMs)
-      .$onUpdate(() => new Date())
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
     model: text('model').notNull(),
     provider: text('provider').notNull(),
@@ -565,135 +600,3 @@ export const chatMessage = table(
     index('idx_chat_message_user_id').on(table.userId, table.status),
   ]
 );
-
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-export type User = typeof user.$inferSelect;
-export type NewUser = typeof user.$inferInsert;
-export type Session = typeof session.$inferSelect;
-export type NewSession = typeof session.$inferInsert;
-export type Account = typeof account.$inferSelect;
-export type NewAccount = typeof account.$inferInsert;
-export type Verification = typeof verification.$inferSelect;
-export type Config = typeof config.$inferSelect;
-export type Taxonomy = typeof taxonomy.$inferSelect;
-export type NewTaxonomy = typeof taxonomy.$inferInsert;
-export type Post = typeof post.$inferSelect;
-export type NewPost = typeof post.$inferInsert;
-export type Order = typeof order.$inferSelect;
-export type NewOrder = typeof order.$inferInsert;
-export type Subscription = typeof subscription.$inferSelect;
-export type NewSubscription = typeof subscription.$inferInsert;
-export type Credit = typeof credit.$inferSelect;
-export type NewCredit = typeof credit.$inferInsert;
-export type Apikey = typeof apikey.$inferSelect;
-export type NewApikey = typeof apikey.$inferInsert;
-export type Role = typeof role.$inferSelect;
-export type NewRole = typeof role.$inferInsert;
-export type Permission = typeof permission.$inferSelect;
-export type RolePermission = typeof rolePermission.$inferSelect;
-export type UserRole = typeof userRole.$inferSelect;
-export type AiTask = typeof aiTask.$inferSelect;
-export type NewAiTask = typeof aiTask.$inferInsert;
-export type Chat = typeof chat.$inferSelect;
-export type NewChat = typeof chat.$inferInsert;
-export type ChatMessage = typeof chatMessage.$inferSelect;
-export type NewChatMessage = typeof chatMessage.$inferInsert;
-
-// ─── Tickets (support) ───────────────────────────────────────────────────────
-
-export const ticket = table(
-  'ticket',
-  {
-    id: text('id').primaryKey(),
-    userId: text('user_id')
-      .notNull()
-      .references(() => user.id),
-    title: text('title').notNull(),
-    status: text('status').notNull().default('open'), // open | replied | closed
-    createdAt: integer('created_at', { mode: 'timestamp' })
-      .notNull()
-      .$defaultFn(() => new Date()),
-    updatedAt: integer('updated_at', { mode: 'timestamp' })
-      .notNull()
-      .$defaultFn(() => new Date()),
-  },
-  (t) => [
-    index('idx_ticket_user').on(t.userId),
-    index('idx_ticket_status').on(t.status),
-  ]
-);
-
-export const ticketMessage = table(
-  'ticket_message',
-  {
-    id: text('id').primaryKey(),
-    ticketId: text('ticket_id')
-      .notNull()
-      .references(() => ticket.id),
-    userId: text('user_id')
-      .notNull()
-      .references(() => user.id),
-    role: text('role').notNull().default('user'), // user | admin
-    content: text('content').notNull(),
-    attachments: text('attachments').notNull().default('[]'), // JSON array of image URLs
-    createdAt: integer('created_at', { mode: 'timestamp' })
-      .notNull()
-      .$defaultFn(() => new Date()),
-  },
-  (t) => [index('idx_ticket_message_ticket').on(t.ticketId)]
-);
-
-export type Ticket = typeof ticket.$inferSelect;
-export type NewTicket = typeof ticket.$inferInsert;
-export type TicketMessage = typeof ticketMessage.$inferSelect;
-export type NewTicketMessage = typeof ticketMessage.$inferInsert;
-
-// ─── Custom tables ───────────────────────────────────────────────────────────
-// Add your own tables below this line.
-
-// ─── Invite Codes ────────────────────────────────────────────────────────────
-
-export const inviteCode = table(
-  'invite_code',
-  {
-    id: text('id').primaryKey(),
-    code: text('code').notNull().unique(),
-    maxUses: integer('max_uses').notNull().default(1),
-    usedCount: integer('used_count').notNull().default(0),
-    trialDays: integer('trial_days').notNull().default(15),
-    note: text('note').default(''),
-    createdBy: text('created_by').references(() => user.id),
-    expiresAt: integer('expires_at', { mode: 'timestamp' }),
-    createdAt: integer('created_at', { mode: 'timestamp' })
-      .notNull()
-      .$defaultFn(() => new Date()),
-  },
-  (t) => [index('idx_invite_code_code').on(t.code)]
-);
-
-export const userInvite = table(
-  'user_invite',
-  {
-    id: text('id').primaryKey(),
-    userId: text('user_id')
-      .notNull()
-      .references(() => user.id),
-    inviteCodeId: text('invite_code_id')
-      .notNull()
-      .references(() => inviteCode.id),
-    activatedAt: integer('activated_at', { mode: 'timestamp' })
-      .notNull()
-      .$defaultFn(() => new Date()),
-    trialEndsAt: integer('trial_ends_at', { mode: 'timestamp' }).notNull(),
-  },
-  (t) => [
-    index('idx_user_invite_user').on(t.userId),
-    index('idx_user_invite_code').on(t.inviteCodeId),
-  ]
-);
-
-export type InviteCode = typeof inviteCode.$inferSelect;
-export type NewInviteCode = typeof inviteCode.$inferInsert;
-export type UserInvite = typeof userInvite.$inferSelect;
-export type NewUserInvite = typeof userInvite.$inferInsert;

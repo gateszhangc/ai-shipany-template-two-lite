@@ -1,26 +1,26 @@
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 
-import type { DbConfig } from './types';
+import { envConfigs } from '@/config';
+import { isCloudflareWorker } from '@/shared/lib/env';
 
-const isCloudflareWorker =
-  typeof globalThis !== 'undefined' && 'Cloudflare' in globalThis;
-
-// SQLite/libsql singleton
+// SQLite/libsql singleton (only used when DB_SINGLETON_ENABLED === 'true' and not in Workers)
 let sqliteDbInstance: ReturnType<typeof drizzle> | null = null;
 
-export function createSqliteDb(config: DbConfig) {
-  const databaseUrl = config.database_url;
+// get sqlite db instance (works for both local sqlite file:... and turso/libsql://...)
+export function getSqliteDb() {
+  const databaseUrl = envConfigs.database_url;
   if (!databaseUrl) {
     throw new Error('DATABASE_URL is not set');
   }
 
+  // custom options
   const options: Record<string, string> = {};
-  if (config.database_auth_token) {
-    options.authToken = config.database_auth_token;
+  if (envConfigs.database_auth_token) {
+    options.authToken = envConfigs.database_auth_token;
   }
 
-  // In Cloudflare Workers, create new connection each time
+  // In Cloudflare Workers, create new connection each time (avoid cross-request state)
   if (isCloudflareWorker) {
     const client = createClient({
       url: databaseUrl,
@@ -30,7 +30,7 @@ export function createSqliteDb(config: DbConfig) {
   }
 
   // Singleton mode: reuse existing instance
-  if (config.db_singleton_enabled === 'true') {
+  if (envConfigs.db_singleton_enabled === 'true') {
     if (sqliteDbInstance) return sqliteDbInstance;
 
     const client = createClient({

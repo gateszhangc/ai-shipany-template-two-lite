@@ -1,27 +1,27 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 import mysql from 'mysql2';
 
-import type { DbConfig } from './types';
-
-const isCloudflareWorker =
-  typeof globalThis !== 'undefined' && 'Cloudflare' in globalThis;
+import { envConfigs } from '@/config';
+import { isCloudflareWorker } from '@/shared/lib/env';
 
 // Global database connection instance (singleton pattern)
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 let pool: ReturnType<typeof mysql.createPool> | null = null;
 
-export function createMysqlDb(config: DbConfig) {
-  let databaseUrl = config.database_url;
+export function getMysqlDb() {
+  let databaseUrl = envConfigs.database_url;
 
   let isHyperdrive = false;
 
   if (isCloudflareWorker) {
     const { env }: { env: any } = { env: {} };
+    // Detect if set Hyperdrive
     isHyperdrive = 'HYPERDRIVE' in env;
 
     if (isHyperdrive) {
       const hyperdrive = env.HYPERDRIVE;
       databaseUrl = hyperdrive.connectionString;
+      console.log('using Hyperdrive connection');
     }
   }
 
@@ -31,6 +31,8 @@ export function createMysqlDb(config: DbConfig) {
 
   // In Cloudflare Workers, create new connection each time
   if (isCloudflareWorker) {
+    console.log('in Cloudflare Workers environment');
+    // Workers environment uses minimal configuration
     const client = mysql.createConnection({
       uri: databaseUrl,
       connectionLimit: 1,
@@ -41,15 +43,17 @@ export function createMysqlDb(config: DbConfig) {
     return drizzle({ client });
   }
 
-  // Singleton mode
-  if (config.db_singleton_enabled === 'true') {
+  // Singleton mode: reuse existing connection (good for traditional servers and serverless warm starts)
+  if (envConfigs.db_singleton_enabled === 'true') {
+    // Return existing instance if already initialized
     if (dbInstance) {
       return dbInstance;
     }
 
+    // Create connection pool only once
     pool = mysql.createPool({
       uri: databaseUrl,
-      connectionLimit: Number(config.db_max_connections) || 1,
+      connectionLimit: Number(envConfigs.db_max_connections) || 1, // Maximum connections in pool (default 1)
       enableKeepAlive: true,
       waitForConnections: true,
     });
@@ -58,7 +62,8 @@ export function createMysqlDb(config: DbConfig) {
     return dbInstance;
   }
 
-  // Non-singleton mode
+  // Non-singleton mode: create new connection each time (good for serverless)
+  // In serverless, the connection will be cleaned up when the function instance is destroyed
   const serverlessClient = mysql.createConnection({
     uri: databaseUrl,
     connectionLimit: 1,
@@ -69,8 +74,10 @@ export function createMysqlDb(config: DbConfig) {
   return drizzle(serverlessClient);
 }
 
-export async function closeMysqlDb(config: DbConfig) {
-  if (config.db_singleton_enabled && pool) {
+// Optional: Function to close database connection (useful for testing or graceful shutdown)
+// Note: Only works in singleton mode
+export async function closeMysqlDb() {
+  if (envConfigs.db_singleton_enabled && pool) {
     await pool.end();
     pool = null;
     dbInstance = null;

@@ -1,40 +1,32 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-import type { DbConfig } from './types';
-
-// workerd sets navigator.userAgent — the documented Workers runtime detection.
-const isCloudflareWorker =
-  (typeof navigator !== 'undefined' &&
-    navigator.userAgent === 'Cloudflare-Workers') ||
-  (typeof globalThis !== 'undefined' && 'Cloudflare' in globalThis);
+import { envConfigs } from '@/config';
+import { isCloudflareWorker } from '@/shared/lib/env';
 
 // Global database connection instance (singleton pattern)
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 let client: ReturnType<typeof postgres> | null = null;
 
-export function createPostgresDb(config: DbConfig) {
-  let databaseUrl = config.database_url;
+export function getPostgresDb() {
+  let databaseUrl = envConfigs.database_url;
 
-  const schemaName = (config.db_schema || 'public').trim();
+  let isHyperdrive = false;
+  const schemaName = (envConfigs.db_schema || 'public').trim();
   const connectionSchemaOptions =
     schemaName && schemaName !== 'public'
       ? { connection: { options: `-c search_path=${schemaName}` } }
       : {};
 
   if (isCloudflareWorker) {
-    // Prefer the Hyperdrive binding — direct Workers→Postgres pays a full
-    // TCP+TLS+auth handshake per connection; Hyperdrive pools at the edge.
-    // The binding env is stashed on globalThis by src/server.ts (same pattern
-    // as the D1 binding in d1.ts). Configure via wrangler.jsonc:
-    //   "hyperdrive": [{ "binding": "HYPERDRIVE", "id": "..." }]
-    const g = globalThis as any;
-    const env = g.__CF_ENV__ ?? g.__env__;
-    const hyperdrive = env?.HYPERDRIVE as
-      | { connectionString: string }
-      | undefined;
-    if (hyperdrive?.connectionString) {
+    const { env }: { env: any } = { env: {} };
+    // Detect if set Hyperdrive
+    isHyperdrive = 'HYPERDRIVE' in env;
+
+    if (isHyperdrive) {
+      const hyperdrive = env.HYPERDRIVE;
       databaseUrl = hyperdrive.connectionString;
+      console.log('using Hyperdrive connection');
     }
   }
 
@@ -44,10 +36,12 @@ export function createPostgresDb(config: DbConfig) {
 
   // In Cloudflare Workers, create new connection each time
   if (isCloudflareWorker) {
+    console.log('in Cloudflare Workers environment');
+    // Workers environment uses minimal configuration
     const client = postgres(databaseUrl, {
       prepare: false,
-      max: 1,
-      idle_timeout: 10,
+      max: 1, // Limit to 1 connection in Workers
+      idle_timeout: 10, // Shorter timeout for Workers
       connect_timeout: 5,
       ...connectionSchemaOptions,
     });
@@ -55,17 +49,19 @@ export function createPostgresDb(config: DbConfig) {
     return drizzle(client);
   }
 
-  // Singleton mode: reuse existing connection
-  if (config.db_singleton_enabled === 'true') {
+  // Singleton mode: reuse existing connection (good for traditional servers and serverless warm starts)
+  if (envConfigs.db_singleton_enabled === 'true') {
+    // Return existing instance if already initialized
     if (dbInstance) {
       return dbInstance;
     }
 
+    // Create connection pool only once
     client = postgres(databaseUrl, {
       prepare: false,
-      max: Number(config.db_max_connections) || 1,
-      idle_timeout: 30,
-      connect_timeout: 10,
+      max: Number(envConfigs.db_max_connections) || 1, // Maximum connections in pool (default 1)
+      idle_timeout: 30, // Idle connection timeout (seconds)
+      connect_timeout: 10, // Connection timeout (seconds)
       ...connectionSchemaOptions,
     });
 
@@ -73,10 +69,11 @@ export function createPostgresDb(config: DbConfig) {
     return dbInstance;
   }
 
-  // Non-singleton mode: create new connection each time
+  // Non-singleton mode: create new connection each time (good for serverless)
+  // In serverless, the connection will be cleaned up when the function instance is destroyed
   const serverlessClient = postgres(databaseUrl, {
     prepare: false,
-    max: 1,
+    max: 1, // Use single connection in serverless
     idle_timeout: 20,
     connect_timeout: 10,
     ...connectionSchemaOptions,
@@ -85,8 +82,10 @@ export function createPostgresDb(config: DbConfig) {
   return drizzle({ client: serverlessClient });
 }
 
-export async function closePostgresDb(config: DbConfig) {
-  if (config.db_singleton_enabled && client) {
+// Optional: Function to close database connection (useful for testing or graceful shutdown)
+// Note: Only works in singleton mode
+export async function closePostgresDb() {
+  if (envConfigs.db_singleton_enabled && client) {
     await client.end();
     client = null;
     dbInstance = null;

@@ -1,10 +1,10 @@
-ShipAny SaaS Boilerplate License Agreement
+ShipAny AI SaaS Boilerplate License Agreement
 
 TL;DR;
-Personal License: Build unlimited SaaS products as an individual developer.
-Team License: Build unlimited SaaS products as a team.
+Personal License: Build unlimited AI SaaS products as an individual developer.
+Team License: Build unlimited AI SaaS products as a team.
 
-This License Agreement ("Agreement") is made between ShipAny ("Licensor"), and you ("Licensee"), concerning the use of ShipAny SaaS Boilerplate ("Product"). By using the Product, you agree to these terms.
+This License Agreement ("Agreement") is made between ShipAny ("Licensor"), and you ("Licensee"), concerning the use of ShipAny AI SaaS Boilerplate ("Product"). By using the Product, you agree to these terms.
 
 1. License Types and Rights
 
@@ -12,21 +12,21 @@ This License Agreement ("Agreement") is made between ShipAny ("Licensor"), and y
 
 ShipAny grants you a Personal License that includes:
 
-- Development of unlimited SaaS applications
-- Use of all included service templates and components
+- Development of unlimited AI SaaS applications
+- Use of all included AI service templates and components
 - Commercial usage rights for your developed applications
 - Access to basic documentation and community support
 
-1.2 Team License
+  1.2 Team License
 
 ShipAny grants you a Team License that includes:
 
 - All Personal License features
 - Team collaboration capabilities
-- Premium integration templates
+- Premium AI integration templates
 - Enterprise-ready features and configurations
 - Priority technical support
-- Advanced service implementation guides
+- Advanced AI service implementation guides
 
 2. Usage Restrictions
 
@@ -36,12 +36,12 @@ You agree not to:
 - Share license keys or access credentials
 - Remove ShipAny attribution and copyright notices
 - Redistribute the source code publicly
-- Create competing boilerplate products
+- Create competing AI boilerplate products
 - Use the code in violation of any laws or regulations
 
 3. Intellectual Property
 
-The Product, including all source code, documentation, and integration templates, remains the exclusive property of ShipAny. Your license grants you usage rights but not ownership of the Product.
+The Product, including all source code, documentation, and AI integration templates, remains the exclusive property of ShipAny. Your license grants you usage rights but not ownership of the Product.
 
 4. Warranty Disclaimer
 
@@ -52,8 +52,8 @@ The Product is provided "as is" without warranty. ShipAny does not guarantee tha
 ShipAny shall not be liable for any damages arising from:
 
 - Use or inability to use the Product
-- Integration with third-party services
-- Data processing operations
+- Integration with third-party AI services
+- Data processing or AI model operations
 - Service interruptions or failures
 
 6. Term and Termination
@@ -70,7 +70,7 @@ ShipAny may terminate your license if you breach this Agreement. Upon terminatio
 
 This Agreement is governed by the laws of Singapore. Any disputes shall be resolved in the courts of Singapore.
 
-Last Updated: 2025-04-15
+Last Updated: [2025-10-14]
 
 ShipAny
 Website: https://shipany.ai

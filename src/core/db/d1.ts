@@ -1,7 +1,6 @@
 import { drizzle } from 'drizzle-orm/d1';
 
-// Minimal D1Database type to avoid pulling in @cloudflare/workers-types globally,
-// which overrides built-in types like Response.json() and breaks non-Workers code.
+// Minimal D1Database type to avoid pulling in @cloudflare/workers-types globally
 type D1Database = {
   prepare(query: string): any;
   batch(statements: any[]): Promise<any[]>;
@@ -9,23 +8,30 @@ type D1Database = {
   dump(): Promise<ArrayBuffer>;
 };
 
-// D1 singleton instance (reused across requests in the same isolate)
+// D1 singleton instance
 let d1DbInstance: ReturnType<typeof drizzle> | null = null;
 
 /**
- * Get the D1 database binding from Cloudflare Workers environment.
+ * Resolve the D1 binding named `DB` (see wrangler.jsonc `d1_databases`).
  *
- * Uses `getCloudflareContext()` from @opennextjs/cloudflare.
- * During build/static rendering this will throw — callers should
- * handle the error gracefully (e.g. config.ts already catches it).
+ * On Cloudflare Workers the binding env is stashed on `globalThis.__CF_ENV__`
+ * by the server entry (src/server.ts, via `cloudflare:workers`). Nitro's
+ * cloudflare presets also expose it as `globalThis.__env__` — check both.
  */
 function getD1Binding(): D1Database {
-  throw new Error(
-    'D1 database not supported in non-CloudflareWorkers environment.'
-  );
+  const g = globalThis as any;
+  const env = g.__CF_ENV__ ?? g.__env__;
+  const binding = env?.DB;
+  if (!binding) {
+    throw new Error(
+      'D1 binding "DB" not found. DATABASE_PROVIDER=d1 only works on Cloudflare Workers ' +
+        'with a d1_databases binding named "DB" in wrangler.jsonc.'
+    );
+  }
+  return binding as D1Database;
 }
 
-export function getD1Db() {
+export function createD1Db() {
   if (d1DbInstance) return d1DbInstance;
 
   const binding = getD1Binding();

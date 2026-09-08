@@ -22,11 +22,20 @@ import {
 } from '@/shared/components/ui/drawer';
 import { useAppContext } from '@/shared/contexts/app';
 import { useMediaQuery } from '@/shared/hooks/use-media-query';
+import { cn } from '@/shared/lib/utils';
 
 import { SignInForm } from './sign-in-form';
 import { SignUpForm } from './sign-up-form';
 
-export function SignModal({ callbackUrl = '/' }: { callbackUrl?: string }) {
+export function SignModal({
+  callbackUrl = '/',
+  googleOnly = false,
+  className,
+}: {
+  callbackUrl?: string;
+  googleOnly?: boolean;
+  className?: string;
+}) {
   const t = useTranslations('common.sign');
   const { isShowSignModal, setIsShowSignModal } = useAppContext();
   const [mode, setMode] = useState<'sign-in' | 'sign-up'>('sign-in');
@@ -40,8 +49,7 @@ export function SignModal({ callbackUrl = '/' }: { callbackUrl?: string }) {
     }
   };
 
-  const title =
-    mode === 'sign-in' ? t('sign_in_title') : t('sign_up_title');
+  const title = mode === 'sign-in' ? t('sign_in_title') : t('sign_up_title');
   const description =
     mode === 'sign-in' ? t('sign_in_description') : t('sign_up_description');
 
@@ -49,6 +57,7 @@ export function SignModal({ callbackUrl = '/' }: { callbackUrl?: string }) {
     mode === 'sign-in' ? (
       <SignInForm
         callbackUrl={callbackUrl}
+        googleOnly={googleOnly}
         onSwitchToSignUp={() => setMode('sign-up')}
       />
     ) : (
@@ -61,7 +70,7 @@ export function SignModal({ callbackUrl = '/' }: { callbackUrl?: string }) {
   if (isDesktop) {
     return (
       <Dialog open={isShowSignModal} onOpenChange={handleOpenChange}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className={cn('sm:max-w-[425px]', className)}>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
@@ -74,7 +83,7 @@ export function SignModal({ callbackUrl = '/' }: { callbackUrl?: string }) {
 
   return (
     <Drawer open={isShowSignModal} onOpenChange={handleOpenChange}>
-      <DrawerContent>
+      <DrawerContent className={className}>
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
           <DrawerDescription>{description}</DrawerDescription>
@@ -82,6 +91,7 @@ export function SignModal({ callbackUrl = '/' }: { callbackUrl?: string }) {
         {mode === 'sign-in' ? (
           <SignInForm
             callbackUrl={callbackUrl}
+            googleOnly={googleOnly}
             className="mt-8 px-4"
             onSwitchToSignUp={() => setMode('sign-up')}
           />

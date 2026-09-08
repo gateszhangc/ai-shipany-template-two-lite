@@ -37,10 +37,14 @@ export function SignUser({
   isScrolled,
   signButtonSize = 'sm',
   userNav,
+  googleOnly = false,
+  signModalClassName,
 }: {
   isScrolled?: boolean;
   signButtonSize?: 'default' | 'sm' | 'lg' | 'icon';
   userNav?: UserNav;
+  googleOnly?: boolean;
+  signModalClassName?: string;
 }) {
   const t = useTranslations('common.sign');
   const router = useRouter();
@@ -259,7 +263,7 @@ export function SignUser({
           >
             <span>{t('sign_in_title')}</span>
           </Button>
-          <SignModal />
+          <SignModal googleOnly={googleOnly} className={signModalClassName} />
         </div>
       )}
     </>

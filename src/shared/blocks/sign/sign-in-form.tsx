@@ -18,10 +18,12 @@ import { SocialProviders } from './social-providers';
 export function SignInForm({
   callbackUrl = '/',
   className,
+  googleOnly = false,
   onSwitchToSignUp,
 }: {
   callbackUrl: string;
   className?: string;
+  googleOnly?: boolean;
   onSwitchToSignUp?: () => void;
 }) {
   const t = useTranslations('common.sign');
@@ -31,13 +33,15 @@ export function SignInForm({
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { configs, setIsShowSignModal, setUser, fetchUserInfo } = useAppContext();
+  const { configs, setIsShowSignModal, setUser, fetchUserInfo } =
+    useAppContext();
 
   const isGoogleAuthEnabled = configs.google_auth_enabled === 'true';
   const isGithubAuthEnabled = configs.github_auth_enabled === 'true';
   const isEmailAuthEnabled =
-    configs.email_auth_enabled !== 'false' ||
-    (!isGoogleAuthEnabled && !isGithubAuthEnabled); // no social providers enabled, auto enable email auth
+    !googleOnly &&
+    (configs.email_auth_enabled !== 'false' ||
+      (!isGoogleAuthEnabled && !isGithubAuthEnabled)); // no social providers enabled, auto enable email auth
 
   if (callbackUrl) {
     if (

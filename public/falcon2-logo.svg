@@ -1,0 +1,14 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="falcon-gradient" x1="18" y1="18" x2="110" y2="110" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#4338CA"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="116" height="116" rx="30" fill="#0F1020" stroke="url(#falcon-gradient)" stroke-width="7"/>
+  <path d="M34 78L56 34L78 54L93 24L98 56L116 72L98 84L83 112L56 88L34 78Z" fill="url(#falcon-gradient)" opacity="0.95"/>
+  <path d="M34 78L56 56L78 65L98 56" stroke="#F8FAFC" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M58 82C62.9706 82 67 86.0294 67 91C67 95.9706 62.9706 100 58 100C53.0294 100 49 95.9706 49 91C49 86.0294 53.0294 82 58 82Z" fill="#F8FAFC"/>
+  <path d="M84 45C86.7614 45 89 47.2386 89 50C89 52.7614 86.7614 55 84 55C81.2386 55 79 52.7614 79 50C79 47.2386 81.2386 45 84 45Z" fill="#F8FAFC"/>
+  <circle cx="44" cy="64" r="2.5" fill="#0F1020"/>
+</svg>

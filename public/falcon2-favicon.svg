@@ -1,0 +1,37 @@
+<svg width="64" height="64" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient
+      id="falcon-gradient-favicon"
+      x1="18"
+      y1="18"
+      x2="110"
+      y2="110"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0" stop-color="#8B5CF6" />
+      <stop offset="1" stop-color="#4338CA" />
+    </linearGradient>
+  </defs>
+  <rect
+    x="4"
+    y="4"
+    width="120"
+    height="120"
+    rx="28"
+    fill="#0F1020"
+    stroke="url(#falcon-gradient-favicon)"
+    stroke-width="8"
+  />
+  <path
+    d="M36 76L60 28L86 50L102 18L108 54L128 72L108 86L94 116L60 90L36 76Z"
+    fill="url(#falcon-gradient-favicon)"
+    opacity="0.95"
+  />
+  <path
+    d="M36 76L60 52L84 63L108 52"
+    stroke="#F8FAFC"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

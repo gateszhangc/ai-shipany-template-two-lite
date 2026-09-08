@@ -1,169 +1,126 @@
-import Image from 'next/image';
 import {
   ArrowRight,
   Check,
-  Film,
-  ImageIcon,
-  Mic,
-  Play,
-  Sparkles,
-  Upload,
-  Video,
+  Globe,
+  Languages,
+  LineChart,
+  MessageSquareText,
+  ShieldCheck,
 } from 'lucide-react';
 import { setRequestLocale } from 'next-intl/server';
 
-import { GenjutsuAction } from '@/shared/blocks/genjutsu/site-chrome';
+import { FalconAction } from '@/shared/blocks/falcon2/site';
 
 export const revalidate = 3600;
 
-const examples = [
-  ['minimax-h3-game-ui-design.webp', 'Cinematic game worlds'],
-  ['minimax-h3-ad.webp', 'Product advertising'],
-  ['minimax-h3-2k.webp', 'High-detail motion'],
-  ['minimax-h3-opening-credits.webp', 'Opening sequences'],
-  ['minimax-h3-poster.webp', 'Animated posters'],
-  ['minimax-h3-stereo-audio.webp', 'Sound-led stories'],
-  ['minimax-h3-multimodal-context-understanding.webp', 'Image-to-video scenes'],
-] as const;
-const features = [
+const highlights = [
   [
-    'Generate from Text',
-    'Describe the subject, action, setting, lighting, and camera movement. Higgsfield Genjutsu turns your prompt into a polished short video.',
+    'Open, multilingual, and multimodal',
+    'Falcon 2 extends Falcon’s model stack with text-first performance and vision-to-language capabilities.',
   ],
   [
-    'Animate Any Image',
-    'Upload a starting image and bring it to life while preserving its subject, composition, and visual identity.',
+    '11B leads on quality',
+    'Falcon 2 11B outperforms newer Llama 3 8B and stays in the same tier as high-performing open models.',
   ],
   [
-    'Create with References',
-    'Add images to give the model clearer context for characters, products, locations, and visual style.',
+    'Efficient deployment',
+    'The model family is designed to run efficiently on smaller clusters and lighter infrastructures.',
   ],
   [
-    'Guide Motion and Camera',
-    'Describe pans, zooms, tracking shots, static shots, and cinematic camera directions in your prompt.',
-  ],
-  [
-    'Produce Social-Ready Video',
-    'Generate concise video clips suited to ads, stories, concepts, and short-form social content.',
-  ],
-  [
-    'Shape Subject and Style Details',
-    'Use precise language and reference images to guide atmosphere, lighting, action, and consistency.',
+    'Clear licensing',
+    'Falcon 2 uses an open, permissive TII Falcon 2.0 license with responsible-use guidance.',
   ],
 ] as const;
-const steps = [
+
+const workflowSteps = [
   [
     '01',
-    'Create an Account',
-    'Create your account and use your starter credits to begin generating videos.',
+    'Deploy',
+    'Load Falcon 2 on your stack and connect your preferred inference gateway.',
   ],
   [
     '02',
-    'Choose a Workflow',
-    'Start with a written prompt or upload an image you want to animate.',
+    'Build prompts and context',
+    'Use rich multilingual inputs for coding, search, analysis, and content generation.',
   ],
   [
     '03',
-    'Write a Prompt and Add an Image',
-    'Describe the scene, movement, camera, mood, and details you want to see.',
+    'Validate responses',
+    'Review outputs and adjust generation style, safety filters, and constraints.',
   ],
   [
     '04',
-    'Generate and Explore',
-    'Choose your settings, generate the video, and explore the result.',
+    'Scale',
+    'Use Falcon 2 as the base for products, internal tooling, and enterprise AI workflows.',
   ],
 ] as const;
-const workflows = [
-  ['Text-to-Video', 'A written prompt', 'Exploring a new scene from scratch'],
+
+const featureTable = [
+  ['Use case', 'Falcon 2', 'What it improves'],
   [
-    'Image-to-Video',
-    'A prompt and source image',
-    'Animating a still image or visual concept',
+    'Text generation',
+    '11B and VLM variants',
+    'Better factual recall and concise reasoning.',
   ],
   [
-    'Reference-Guided Video',
-    'A prompt with visual references',
-    'Keeping subjects and visual style consistent',
-  ],
-] as const;
-const uses = [
-  [
-    'Product Marketing',
-    'Marketing & Product Teams',
-    'Turn a product image into a short ad concept before planning a full production.',
+    'Vision-aware tasks',
+    'Falcon 2 11B VLM',
+    'Image-to-text and context-aware interpretation in one model family.',
   ],
   [
-    'Ecommerce Content',
-    'Ecommerce Teams',
-    'Animate product photos into lifestyle video concepts for storefronts and campaigns.',
+    'Multilingual workloads',
+    'Core + VLM',
+    'Broader language support for Arabic, English, French, Spanish, German, and Portuguese.',
   ],
   [
-    'Social Media Videos',
-    'Creators & Social Teams',
-    'Explore short-form video concepts for Reels, Shorts, TikTok, and social feeds.',
-  ],
-  [
-    'Film Previsualization',
-    'Filmmakers & Creative Teams',
-    'Test shot direction, framing, movement, and scene mood before filming.',
-  ],
-  [
-    'Game Concept Development',
-    'Game & Concept Teams',
-    'Turn character and environment art into motion studies for early concepts.',
-  ],
-  [
-    'Motion Design',
-    'Motion & Brand Designers',
-    'Explore animated posters, campaigns, and visual identity concepts.',
+    'Enterprise deployment',
+    'Base 11B',
+    'Lower hardware footprint than large 70B-class models.',
   ],
 ] as const;
-const packs = [
-  ['Starter', '$9.90', '370', 'Up to 18 short video generations'],
-  ['Creator', '$29.90', '1,300', 'Up to 65 short video generations'],
-  ['Studio', '$49.90', '2,500', 'Up to 125 short video generations'],
-  ['Business', '$99.90', '5,550', 'Up to 277 short video generations'],
+
+const impactRows = [
+  'Healthcare documentation workflows.',
+  'Financial compliance review assistants.',
+  'E-commerce catalog enrichment and indexing.',
+  'Education copilots and search assistants.',
+  'Legal and policy analysis support.',
+  'Accessibility pipelines for visual content.',
 ] as const;
+
+const quotes = [
+  [
+    'H.E. Faisal Al Bannai',
+    'Secretary General of ATRC and advisor on technology',
+    '“Falcon 2 is a major step for open AI in the region. It brings strong model quality with practical, privacy-conscious deployment options and keeps the Falcon foundation open for teams to adopt.”',
+  ],
+  [
+    'Dr. Hakim Hacid',
+    'Executive Director and Acting Chief Researcher',
+    '“Smaller models are becoming the most effective way to scale AI infrastructure. Falcon 2 shows how we can keep power high while reducing compute strain and enabling broader deployment.”',
+  ],
+] as const;
+
 const faqs = [
   [
-    'What is Higgsfield Genjutsu?',
-    'Higgsfield Genjutsu is an AI video creation experience for turning text prompts and still images into expressive short videos.',
+    'What is Falcon 2?',
+    'Falcon 2 is TII’s latest multilingual and multimodal model series, including Falcon 2 11B and Falcon 2 11B VLM.',
   ],
   [
-    'How do I use Higgsfield Genjutsu online?',
-    'Sign in, choose text-to-video or image-to-video, describe your scene, select your settings, and generate.',
+    'What is the difference between Falcon 2 11B and Falcon 2 11B VLM?',
+    'The VLM variant adds vision-to-language capabilities, so it can process and describe image context in text-aware workflows.',
   ],
   [
-    'Can it create videos from text?',
-    'Yes. Describe the subject, action, environment, lighting, style, and camera motion in natural language.',
+    'Can I use Falcon 2 in commercial products?',
+    'Falcon 2 is released under the TII Falcon 2.0 license, which is designed to be permissive while requiring responsible usage.',
   ],
   [
-    'Can it turn an image into a video?',
-    'Yes. Upload an image and explain how the scene, subject, and camera should move.',
+    'Does Falcon 2 support multiple languages?',
+    'Yes. It supports key languages including Arabic, English, French, Spanish, German, and Portuguese, with multilingual behavior across core generation tasks.',
   ],
   [
-    'What makes a good prompt?',
-    'Use a clear subject, action, setting, mood, lighting, and camera direction. Keep the most important details explicit.',
-  ],
-  [
-    'Can I guide camera movement?',
-    'Yes. Prompts can request pans, zooms, tracking shots, handheld movement, or a static camera.',
-  ],
-  [
-    'What image formats are supported?',
-    'Use common image formats such as JPG, PNG, and WEBP for image-to-video workflows.',
-  ],
-  [
-    'How are credits used?',
-    'The generation interface shows the credit estimate before you continue. Credit usage depends on the selected workflow and settings.',
-  ],
-  [
-    'How many free credits do I get?',
-    'New accounts receive starter credits when the active offer is available. Your balance appears after sign-in.',
-  ],
-  [
-    'Is Higgsfield Genjutsu an official Higgsfield product?',
-    'This is an independent Genjutsu experience built for exploring the model in a focused creative workspace.',
+    'Will Falcon 2 replace large commercial APIs for me?',
+    'Falcon 2 is designed for teams that need a strong open model stack with better controllability, deployment flexibility, and lower compute requirements.',
   ],
 ] as const;
 
@@ -193,38 +150,32 @@ export default async function LandingPage({
   return (
     <main id="home">
       <section className="gen-hero">
-        <Image
-          src="/genjutsu/hero.webp"
-          alt="Cinematic AI video collage"
-          fill
-          priority
-          sizes="100vw"
-        />
         <div className="gen-hero-overlay" />
         <div className="gen-hero-content">
           <span className="gen-pill">
-            <Video /> Create videos from text and images
+            <ShieldCheck /> Falcon 2 · Open Source & Multimodal
           </span>
           <h1>
-            <b>Genjutsu</b> Video Generator
+            <b>Meet Falcon 2</b>
           </h1>
           <p>
-            Create cinematic AI videos from text prompts and images. Guide
-            motion, camera, atmosphere, and visual style in seconds.
+            Introducing Falcon 2, a multilingual and multimodal model series
+            from TII. Falcon 2 combines open research progress with practical
+            enterprise readiness.
           </p>
           <div className="gen-hero-actions">
-            <GenjutsuAction className="gen-gradient-button">
-              Generate a Video <ArrowRight />
-            </GenjutsuAction>
-            <a href="#examples">View Examples</a>
+            <FalconAction className="gen-gradient-button">
+              Generate with Falcon 2 <ArrowRight />
+            </FalconAction>
+            <a href="#highlights">View Highlights</a>
           </div>
           <div className="gen-benefits">
             {[
-              'Starter Credits',
-              'Text-to-Video',
-              'Image-to-Video',
-              'Cinematic Motion',
-              'Fast AI Generation',
+              'Multilingual',
+              'Vision-to-language',
+              'Open License',
+              'Efficient Inference',
+              'Model Comparison',
             ].map((x) => (
               <span key={x}>
                 <Check />
@@ -235,113 +186,23 @@ export default async function LandingPage({
         </div>
       </section>
 
-      <section className="gen-section gen-generator-section" id="generator">
+      <section className="gen-section" id="highlights">
         <SectionTitle
-          eyebrow="Create with Higgsfield Genjutsu"
-          title="Create Videos with Higgsfield Genjutsu"
-          copy="Generate expressive videos from a written prompt or animate an image. Customize the motion, framing, aspect ratio, and creative direction."
-        />
-        <div className="gen-generator">
-          <div className="gen-generator-main">
-            <label>AI Model</label>
-            <button className="gen-select" type="button">
-              <Sparkles /> Higgsfield Genjutsu <span>Fast · Cinematic</span>
-            </button>
-            <div className="gen-workflow-tabs">
-              <b>Image to Video</b>
-              <span>Text to Video</span>
-            </div>
-            <label>
-              Describe your video <span>0 / 4000</span>
-            </label>
-            <textarea placeholder="Describe the subject, action, camera movement, lighting, and mood…" />
-            <div className="gen-upload-card">
-              <Upload />
-              <b>Click to upload an image</b>
-              <span>JPG, PNG or WEBP · maximum 30 MB</span>
-            </div>
-          </div>
-          <aside className="gen-settings-card">
-            <label>Aspect Ratio</label>
-            <div className="gen-options">
-              <b>Auto</b>
-              <span>16:9</span>
-              <span>9:16</span>
-              <span>1:1</span>
-            </div>
-            <label>Creative Mode</label>
-            <div className="gen-options">
-              <b>Normal</b>
-              <span>Fun</span>
-              <span>Spicy</span>
-            </div>
-            <label>Duration</label>
-            <div className="gen-options">
-              <b>6s</b>
-              <span>10s</span>
-            </div>
-            <GenjutsuAction className="gen-gradient-button">
-              Generate Video <span>20 Credits</span>
-            </GenjutsuAction>
-          </aside>
-        </div>
-        <div className="gen-guide">
-          <div>
-            <span>Prompt Guide</span>
-            <h3>Describe the moment you want to see.</h3>
-            <p>
-              Include the subject, action, environment, lighting, mood, and
-              camera direction. For image-to-video, explain what should move
-              while preserving the important visual details.
-            </p>
-          </div>
-          <div>
-            <span>Supported Inputs</span>
-            <ul>
-              <li>Text prompts up to 4,000 characters</li>
-              <li>JPG, PNG, or WEBP source images</li>
-              <li>Landscape, square, and portrait output</li>
-              <li>Normal, Fun, and Spicy creative modes</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="gen-section" id="examples">
-        <SectionTitle
-          eyebrow="Creative starting points"
-          title="Higgsfield Genjutsu Examples"
-          copy="Explore AI video concepts built from text prompts and images across ads, games, cinematic scenes, and creative work."
-        />
-        <div className="gen-example-grid">
-          {examples.map(([src, title], i) => (
-            <article className={i === 0 || i === 5 ? 'wide' : ''} key={title}>
-              <Image
-                src={`/genjutsu/examples/${src}`}
-                alt={title}
-                fill
-                sizes="(max-width: 700px) 100vw, 40vw"
-              />
-              <span>
-                <Play />
-                {title}
-              </span>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="gen-section gen-alt" id="features">
-        <SectionTitle
-          eyebrow="Flexible creative controls"
-          title="Key Features of Higgsfield Genjutsu"
-          copy="Explore tools for text-to-video, image animation, expressive motion, cinematic camera direction, and fast visual storytelling."
+          eyebrow="Falcon 2 Soars: Highlights"
+          title="Falcon 2 is a practical open model for real-world use"
+          copy="We benchmarked and refined Falcon 2 to balance performance with deployment realism across multiple domains."
         />
         <div className="gen-card-grid">
-          {features.map(([title, copy], i) => (
+          {highlights.map(([title, copy], i) => (
             <article key={title}>
               <span>
-                {i % 3 === 0 ? <Film /> : i % 3 === 1 ? <ImageIcon /> : <Mic />}
+                {i % 3 === 0 ? (
+                  <ShieldCheck />
+                ) : i % 3 === 1 ? (
+                  <LineChart />
+                ) : (
+                  <Languages />
+                )}
               </span>
               <h3>{title}</h3>
               <p>{copy}</p>
@@ -350,14 +211,126 @@ export default async function LandingPage({
         </div>
       </section>
 
-      <section className="gen-section" id="how-it-works">
+      <section className="gen-section gen-alt" id="whats-new">
         <SectionTitle
-          eyebrow="Four-step workflow"
-          title="How to Use Higgsfield Genjutsu Online"
-          copy="Choose a workflow, add your prompt or image, customize the creative settings, and generate your video."
+          eyebrow="What’s New"
+          title="Falcon 2 Family Release Notes"
+          copy="Falcon 2 introduces two flagship variants to cover both classic LLM generation and vision-grounded workflows."
+        />
+        <div className="gen-generator">
+          <div className="gen-generator-main">
+            <label>Variant</label>
+            <span className="gen-select">
+              Falcon 2 11B (Multilingual + efficient inference)
+            </span>
+            <div className="gen-workflow-tabs">
+              <b>Falcon 2 11B</b>
+              <span>Falcon 2 11B VLM</span>
+            </div>
+            <div className="gen-upload-card">
+              <strong>Core notes</strong>
+              <span>
+                11B: 5.5T tokens · VLM adds visual grounding to the same stack
+              </span>
+            </div>
+          </div>
+          <aside className="gen-settings-card">
+            <label>Key positioning</label>
+            <div className="gen-options">
+              <b>Best-in-class multilingual quality</b>
+              <span>Image-to-text support in VLM mode</span>
+            </div>
+            <label>Deployment profile</label>
+            <div className="gen-options">
+              <b>Lower GPU footprint</b>
+              <span>Edge-adjacent integration ready</span>
+            </div>
+            <label>Roadmap focus</label>
+            <div className="gen-options">
+              <b>Mixture of Experts (MoE)</b>
+              <span>Future efficiency and specialization improvements</span>
+            </div>
+            <FalconAction className="gen-gradient-button">
+              Validate with Credits <ArrowRight />
+            </FalconAction>
+          </aside>
+        </div>
+      </section>
+
+      <section className="gen-section" id="performance">
+        <SectionTitle
+          eyebrow="How does the Falcon fare?"
+          title="Falcon 2 performance and positioning"
+          copy="Open performance testing places Falcon 2 as a top-tier open option in its class while preserving transparency and flexibility."
+        />
+        <div className="gen-table">
+          {featureTable.map((row, idx) => (
+            <div key={row[0]}>
+              {row.map((cell, cellIdx) => (
+                <span key={`${idx}-${cellIdx}`}>
+                  <b>{cellIdx === 0 ? row[0] : cell}</b>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+        <blockquote>
+          Falcon 2 is designed for teams who need strong model ability, clear
+          licensing, and practical deployment economics.
+        </blockquote>
+      </section>
+
+      <section className="gen-section gen-alt" id="multilingual">
+        <SectionTitle
+          eyebrow="Multilingual and Multimodal"
+          title="Support across languages, text, and vision inputs"
+          copy="Falcon 2 is prepared for international workloads while opening visual understanding paths for broader applications."
+        />
+        <div className="gen-use-grid">
+          {impactRows.map((x) => (
+            <article key={x}>
+              <span>
+                <Globe />
+                Use Case
+              </span>
+              <h3>{x}</h3>
+              <p>
+                Deploy Falcon 2 variants where consistency, language diversity,
+                and multimodal context matter.
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="gen-section" id="word-of-mouth">
+        <SectionTitle
+          eyebrow="Word of mouth"
+          title="Falcon 2 in leadership views"
+          copy="Leaders highlighted Falcon 2 as a strategic open model and a privacy-conscious infrastructure choice."
+        />
+        <div className="gen-faq">
+          {quotes.map(([name, title, quote]) => (
+            <details key={name} open>
+              <summary>
+                {name}
+                <span>+</span>
+              </summary>
+              <p>{title}</p>
+              <p>{quote}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="gen-section gen-alt" id="whats-next">
+        <SectionTitle
+          eyebrow="What’s Next"
+          title="Mixture of Experts and deeper multimodal adaptation"
+          copy="Falcon 2 will continue expanding capabilities with specialization strategies aimed at higher performance and flexible composition."
         />
         <div className="gen-steps">
-          {steps.map(([n, title, copy]) => (
+          {workflowSteps.map(([n, title, copy]) => (
             <article key={n}>
               <b>{n}</b>
               <h3>{title}</h3>
@@ -365,99 +338,13 @@ export default async function LandingPage({
             </article>
           ))}
         </div>
-        <blockquote>
-          <b>Example prompt:</b> A silver sports car rests beneath neon city
-          lights. Rain reflects across the street as the camera slowly pushes
-          forward. Cinematic commercial style.
-        </blockquote>
-      </section>
-
-      <section className="gen-section gen-alt" id="workflows">
-        <SectionTitle
-          eyebrow="Choose the right input"
-          title="Which Video Workflow Should You Use?"
-          copy="Compare Higgsfield Genjutsu workflows by the input you have and the level of creative control you need."
-        />
-        <div className="gen-table">
-          <div>
-            <b>Workflow</b>
-            <b>What you provide</b>
-            <b>Good for</b>
-          </div>
-          {workflows.map((row) => (
-            <div key={row[0]}>
-              {row.map((cell) => (
-                <span key={cell}>{cell}</span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="gen-section">
-        <SectionTitle
-          eyebrow="Real project workflows"
-          title="Higgsfield Genjutsu Use Cases"
-          copy="Use Higgsfield Genjutsu to explore product ads, social videos, film shots, game concepts, and motion design before full production."
-        />
-        <div className="gen-use-grid">
-          {uses.map(([title, audience, copy]) => (
-            <article key={title}>
-              <span>{audience}</span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-              <ArrowRight />
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="gen-section gen-alt" id="pricing">
-        <SectionTitle
-          eyebrow="Plans and credits"
-          title="Choose a Higgsfield Genjutsu Credit Pack"
-          copy="Buy credits once and create AI videos whenever inspiration strikes. Purchased credits do not expire."
-        />
-        <div className="gen-price-grid">
-          {packs.map(([name, price, credits, copy], i) => (
-            <article className={i === 2 ? 'featured' : ''} key={name}>
-              {i === 2 && <em>Best value</em>}
-              <h3>{name}</h3>
-              <div className="gen-price">
-                {price}
-                <small> one time</small>
-              </div>
-              <b>{credits}</b>
-              <span>Credits</span>
-              <p>{copy}</p>
-              <GenjutsuAction>
-                Buy {name}
-                <ArrowRight />
-              </GenjutsuAction>
-            </article>
-          ))}
-        </div>
-        <div className="gen-included">
-          <h3>Included with every credit pack</h3>
-          {[
-            'One-time purchase, no subscription',
-            'Purchased credits never expire',
-            'Text and image video workflows',
-            'Share-ready video exports',
-          ].map((x) => (
-            <span key={x}>
-              <Check />
-              {x}
-            </span>
-          ))}
-        </div>
       </section>
 
       <section className="gen-section" id="faq">
         <SectionTitle
           eyebrow="Frequently asked questions"
-          title="Higgsfield Genjutsu FAQ"
-          copy="Get answers about generating videos, choosing inputs, writing prompts, and understanding credit usage."
+          title="Falcon 2 FAQ"
+          copy="Quick answers on Falcon 2 capabilities, usage, and model family scope."
         />
         <div className="gen-faq">
           {faqs.map(([q, a]) => (
@@ -472,18 +359,19 @@ export default async function LandingPage({
         </div>
       </section>
 
-      <section className="gen-cta">
-        <Sparkles />
-        <h2>Turn Your Idea Into a Video</h2>
+      <section className="gen-cta" id="start">
+        <MessageSquareText />
+        <h2>Build on Falcon 2 now</h2>
         <p>
-          Start with text or an image and create a cinematic AI video with
-          Higgsfield Genjutsu.
+          Generate, test, and integrate Falcon 2 workflows with a single
+          account.
         </p>
         <div>
-          <GenjutsuAction className="gen-gradient-button">
-            Generate a Video <ArrowRight />
-          </GenjutsuAction>
-          <a href="#examples">View Examples</a>
+          <FalconAction className="gen-gradient-button">
+            Start creating
+            <ArrowRight />
+          </FalconAction>
+          <a href="#whats-new">Read release notes</a>
         </div>
       </section>
     </main>

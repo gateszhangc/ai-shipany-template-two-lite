@@ -6,16 +6,16 @@ import packageJson from '../../package.json';
 export type ConfigMap = Record<string, string>;
 
 export const envConfigs: ConfigMap = {
-  app_url: process.env.NEXT_PUBLIC_APP_URL ?? 'https://higgsfieldgenjutsu.lol',
-  app_name: process.env.NEXT_PUBLIC_APP_NAME ?? 'Higgsfield Genjutsu',
+  app_url: process.env.NEXT_PUBLIC_APP_URL ?? 'https://falcon2.lol',
+  app_name: process.env.NEXT_PUBLIC_APP_NAME ?? 'Falcon 2',
   app_description:
     process.env.NEXT_PUBLIC_APP_DESCRIPTION ??
-    'Create expressive AI video scenes from text and images.',
-  app_logo: process.env.NEXT_PUBLIC_APP_LOGO ?? '/genjutsu-logo.svg',
-  app_favicon: process.env.NEXT_PUBLIC_APP_FAVICON ?? '/favicon.svg',
+    'Falcon 2 language model suite for multilingual and multimodal AI experiences.',
+  app_logo: process.env.NEXT_PUBLIC_APP_LOGO ?? '/falcon2-logo.svg',
+  app_favicon: process.env.NEXT_PUBLIC_APP_FAVICON ?? '/falcon2-favicon.svg',
   app_preview_image:
     process.env.NEXT_PUBLIC_APP_PREVIEW_IMAGE ?? '/preview.png',
-  theme: process.env.NEXT_PUBLIC_THEME ?? 'genjutsu',
+  theme: process.env.NEXT_PUBLIC_THEME ?? 'falcon2',
   appearance: process.env.NEXT_PUBLIC_APPEARANCE ?? 'dark',
   locale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'en',
   database_url: process.env.DATABASE_URL ?? '',

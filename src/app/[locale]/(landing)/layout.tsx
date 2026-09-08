@@ -1,18 +1,15 @@
 import { ReactNode } from 'react';
 
-import '@/config/style/genjutsu.css';
+import '@/config/style/falcon2.css';
 
-import {
-  GenjutsuFooter,
-  GenjutsuHeader,
-} from '@/shared/blocks/genjutsu/site-chrome';
+import { FalconFooter, FalconHeader } from '@/shared/blocks/falcon2/site';
 
 export default function LandingLayout({ children }: { children: ReactNode }) {
   return (
     <div className="gen-shell">
-      <GenjutsuHeader />
+      <FalconHeader />
       {children}
-      <GenjutsuFooter />
+      <FalconFooter />
     </div>
   );
 }

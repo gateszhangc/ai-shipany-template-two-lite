@@ -311,16 +311,19 @@ async function getPaymentProductId(
   provider: string,
   checkoutCurrency: string
 ) {
-  if (provider !== 'creem') {
-    // currently only creem supports payment product id mapping
+  if (provider !== 'creem' && provider !== 'pancake') {
+    // Creem and Pancake use provider-side product IDs.
     return;
   }
 
   try {
     const configs = await getAllConfigs();
-    const creemProductIds = configs.creem_product_ids;
-    if (creemProductIds) {
-      const productIds = JSON.parse(creemProductIds);
+    const configuredProductIds =
+      provider === 'pancake'
+        ? configs.pancake_product_ids
+        : configs.creem_product_ids;
+    if (configuredProductIds) {
+      const productIds = JSON.parse(configuredProductIds);
       return (
         productIds[`${productId}_${checkoutCurrency}`] || productIds[productId]
       );

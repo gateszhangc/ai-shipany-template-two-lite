@@ -23,19 +23,14 @@
         "icon": "Coins"
       },
       {
-        "title": "API 密钥",
-        "url": "/settings/apikeys",
-        "icon": "RiKeyLine"
+        "title": "安全",
+        "url": "/settings/security",
+        "icon": "Shield"
       }
     ]
   },
   "top_nav": {
     "items": [
-      {
-        "title": "活动",
-        "url": "/activity",
-        "icon": "Activity"
-      },
       {
         "title": "设置",
         "url": "/settings",

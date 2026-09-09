@@ -45,6 +45,9 @@
     "node_modules",
     ".next",
     "out",
-    "dist"
+    "dist",
+    "scripts",
+    "tests",
+    "src/core/db/config.ts"
   ]
 }

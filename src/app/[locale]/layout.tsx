@@ -14,11 +14,6 @@ import { UtmCapture } from '@/shared/blocks/common/utm-capture';
 import { Toaster } from '@/shared/components/ui/sonner';
 import { AppContextProvider } from '@/shared/contexts/app';
 import { getMetadata } from '@/shared/lib/seo';
-import { getAllConfigs } from '@/shared/models/config';
-import { getAdsService } from '@/shared/services/ads';
-import { getAffiliateService } from '@/shared/services/affiliate';
-import { getAnalyticsService } from '@/shared/services/analytics';
-import { getCustomerService } from '@/shared/services/customer_service';
 
 const notoSansMono = Noto_Sans_Mono({
   subsets: ['latin'],
@@ -58,54 +53,7 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
 
-  const isProduction = process.env.NODE_ENV === 'production';
-  const isDebug = process.env.NEXT_PUBLIC_DEBUG === 'true';
-
   const appUrl = envConfigs.app_url || '';
-
-  let adsMetaTags = null;
-  let adsHeadScripts = null;
-  let adsBodyScripts = null;
-
-  let analyticsMetaTags = null;
-  let analyticsHeadScripts = null;
-  let analyticsBodyScripts = null;
-
-  let affiliateMetaTags = null;
-  let affiliateHeadScripts = null;
-  let affiliateBodyScripts = null;
-
-  let customerServiceMetaTags = null;
-  let customerServiceHeadScripts = null;
-  let customerServiceBodyScripts = null;
-
-  if (isProduction || isDebug) {
-    const configs = await getAllConfigs();
-
-    const [adsService, analyticsService, affiliateService, customerService] =
-      await Promise.all([
-        getAdsService(configs),
-        getAnalyticsService(configs),
-        getAffiliateService(configs),
-        getCustomerService(configs),
-      ]);
-
-    adsMetaTags = adsService.getMetaTags();
-    adsHeadScripts = adsService.getHeadScripts();
-    adsBodyScripts = adsService.getBodyScripts();
-
-    analyticsMetaTags = analyticsService.getMetaTags();
-    analyticsHeadScripts = analyticsService.getHeadScripts();
-    analyticsBodyScripts = analyticsService.getBodyScripts();
-
-    affiliateMetaTags = affiliateService.getMetaTags();
-    affiliateHeadScripts = affiliateService.getHeadScripts();
-    affiliateBodyScripts = affiliateService.getBodyScripts();
-
-    customerServiceMetaTags = customerService.getMetaTags();
-    customerServiceHeadScripts = customerService.getHeadScripts();
-    customerServiceBodyScripts = customerService.getBodyScripts();
-  }
 
   return (
     <html
@@ -129,17 +77,13 @@ export default async function LocaleLayout({
             ))
           : null}
 
-        {adsMetaTags}
-        {adsHeadScripts}
 
-        {analyticsMetaTags}
-        {analyticsHeadScripts}
 
-        {affiliateMetaTags}
-        {affiliateHeadScripts}
 
-        {customerServiceMetaTags}
-        {customerServiceHeadScripts}
+
+
+
+
       </head>
       <body suppressHydrationWarning className="overflow-x-hidden">
         <NextTopLoader
@@ -164,10 +108,9 @@ export default async function LocaleLayout({
           </ThemeProvider>
         </NextIntlClientProvider>
 
-        {adsBodyScripts}
-        {analyticsBodyScripts}
-        {affiliateBodyScripts}
-        {customerServiceBodyScripts}
+
+
+
       </body>
     </html>
   );

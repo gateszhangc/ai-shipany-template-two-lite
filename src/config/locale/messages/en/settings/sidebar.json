@@ -23,19 +23,14 @@
         "icon": "Coins"
       },
       {
-        "title": "API Keys",
-        "url": "/settings/apikeys",
-        "icon": "RiKeyLine"
+        "title": "Security",
+        "url": "/settings/security",
+        "icon": "Shield"
       }
     ]
   },
   "top_nav": {
     "items": [
-      {
-        "title": "Activity",
-        "url": "/activity",
-        "icon": "Activity"
-      },
       {
         "title": "Settings",
         "url": "/settings",

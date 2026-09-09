@@ -105,7 +105,11 @@ export default async function CancelBillingPage({
     }
 
     await updateSubscriptionBySubscriptionNo(subscription.subscriptionNo, {
-      status: SubscriptionStatus.CANCELED,
+      // Providers such as Waffo Pancake cancel active subscriptions at the
+      // end of the current period and return `canceling` first.
+      status: result.subscriptionInfo?.status || SubscriptionStatus.CANCELED,
+      canceledAt: result.subscriptionInfo?.canceledAt || undefined,
+      canceledEndAt: result.subscriptionInfo?.canceledEndAt || undefined,
     });
 
     return {

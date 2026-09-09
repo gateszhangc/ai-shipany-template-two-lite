@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Loader2 } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import { RiGithubFill, RiGoogleFill } from 'react-icons/ri';
+import { Chrome, Github } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { signIn } from '@/core/auth/client';
@@ -67,7 +67,7 @@ export function PaymentProviders({
   // Get allowed payment providers from pricing item
   // If payment_providers is set, use it; otherwise show all enabled providers
   const allowedProviders = pricingItem?.payment_providers;
-  
+
   // Helper function to check if a provider is allowed
   const isProviderAllowed = (providerName: string): boolean => {
     // If no payment_providers specified, allow all
@@ -104,6 +104,15 @@ export function PaymentProviders({
       title: 'Paypal',
       icon_url: '/imgs/icons/paypal.svg',
       onClick: () => handlePayment({ provider: 'paypal' }),
+    });
+  }
+
+  if (configs.pancake_enabled === 'true' && isProviderAllowed('pancake')) {
+    providers.push({
+      name: 'pancake',
+      title: 'Waffo Pancake',
+      icon_url: '/imgs/icons/pancake.svg',
+      onClick: () => handlePayment({ provider: 'pancake' }),
     });
   }
 

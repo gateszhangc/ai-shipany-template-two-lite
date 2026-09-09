@@ -1,5 +1,6 @@
 import {
   CreemProvider,
+  PancakeProvider,
   PaymentManager,
   PayPalProvider,
   StripeProvider,
@@ -44,6 +45,21 @@ export function getPaymentServiceWithConfigs(configs: Configs) {
   const paymentManager = new PaymentManager();
 
   const defaultProvider = configs.default_payment_provider;
+
+  // add Waffo Pancake provider
+  if (configs.pancake_enabled === 'true') {
+    paymentManager.addProvider(
+      new PancakeProvider({
+        merchantId: configs.pancake_merchant_id,
+        storeId: configs.pancake_store_id,
+        privateKey: configs.pancake_private_key,
+        environment: configs.pancake_environment === 'prod' ? 'prod' : 'test',
+        baseUrl: configs.pancake_api_base_url,
+        webhookPublicKey: configs.pancake_webhook_public_key,
+      }),
+      defaultProvider === 'pancake'
+    );
+  }
 
   // add stripe provider
   if (configs.stripe_enabled === 'true') {
@@ -141,12 +157,18 @@ export async function handleCheckoutSuccess({
   }
 
   // Only process orders in CREATED or PENDING status
-  if (order.status !== OrderStatus.CREATED && order.status !== OrderStatus.PENDING) {
+  if (
+    order.status !== OrderStatus.CREATED &&
+    order.status !== OrderStatus.PENDING
+  ) {
     console.log(`Order ${orderNo} status is ${order.status}, not processing`);
     return;
   }
 
-  if (order.paymentType === PaymentType.SUBSCRIPTION) {
+  if (
+    order.paymentType === PaymentType.SUBSCRIPTION &&
+    session.paymentStatus === PaymentStatus.SUCCESS
+  ) {
     if (!session.subscriptionId || !session.subscriptionInfo) {
       throw new Error('subscription id or subscription info not found');
     }

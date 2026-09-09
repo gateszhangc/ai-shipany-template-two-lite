@@ -1,6 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { getThemePage } from '@/core/theme';
+import { Pricing } from '@/themes/default/blocks/pricing';
 import { getMetadata } from '@/shared/lib/seo';
 import { getCurrentSubscription } from '@/shared/models/subscription';
 import { getUserInfo } from '@/shared/models/user';
@@ -49,7 +49,5 @@ export default async function PricingPage({
   };
 
   // load page component
-  const Page = await getThemePage('dynamic-page');
-
-  return <Page locale={locale} page={page} />;
+  return <><h1 className="sr-only">{page.title}</h1><Pricing section={t.raw('page.sections.pricing')} currentSubscription={currentSubscription} /></>;
 }

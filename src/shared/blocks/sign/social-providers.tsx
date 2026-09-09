@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { RiGithubFill, RiGoogleFill } from 'react-icons/ri';
+import { Chrome, Github } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { signIn } from '@/core/auth/client';
@@ -128,7 +128,7 @@ export function SocialProviders({
     providers.push({
       name: 'google',
       title: t('google_sign_in_title'),
-      icon: <RiGoogleFill />,
+      icon: <Chrome />,
       onClick: () => handleSignIn({ provider: 'google' }),
     });
   }
@@ -137,7 +137,7 @@ export function SocialProviders({
     providers.push({
       name: 'github',
       title: t('github_sign_in_title'),
-      icon: <RiGithubFill />,
+      icon: <Github />,
       onClick: () => handleSignIn({ provider: 'github' }),
     });
   }

@@ -40,9 +40,7 @@ export function FalconAction({
         setIsShowSignModal(true);
         return;
       }
-      router.push(
-        (result.data?.remainingCredits ?? 0) > 0 ? '/chat' : '/pricing'
-      );
+      router.push('/pricing');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Please try again');
     } finally {

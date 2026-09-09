@@ -161,6 +161,13 @@ export async function getSettingGroups() {
       tab: 'payment',
     },
     {
+      name: 'pancake',
+      title: t('groups.pancake'),
+      description:
+        'custom your <a href="https://pancake.waffo.ai" class="text-primary" target="_blank">Waffo Pancake</a> settings',
+      tab: 'payment',
+    },
+    {
       name: 'google_analytics',
       title: t('groups.google_analytics'),
       description:
@@ -454,7 +461,7 @@ export async function getSettings() {
       name: 'default_payment_provider',
       title: 'Default Payment Provider',
       type: 'select',
-      value: 'stripe',
+      value: 'pancake',
       options: [
         {
           title: 'Stripe',
@@ -467,6 +474,10 @@ export async function getSettings() {
         {
           title: 'Paypal',
           value: 'paypal',
+        },
+        {
+          title: 'Waffo Pancake',
+          value: 'pancake',
         },
       ],
       tip: 'Choose the default payment provider to use',
@@ -642,6 +653,85 @@ export async function getSettings() {
       placeholder: 'xxx',
       tip: 'PayPal Webhook ID is used to verify the webhook notification from PayPal. You can find it in PayPal Developer Dashboard > Webhooks.',
       group: 'paypal',
+      tab: 'payment',
+    },
+    {
+      name: 'pancake_enabled',
+      title: 'Waffo Pancake Enabled',
+      type: 'switch',
+      value: 'false',
+      group: 'pancake',
+      tab: 'payment',
+    },
+    {
+      name: 'pancake_environment',
+      title: 'Pancake Environment',
+      type: 'select',
+      value: 'test',
+      options: [
+        { title: 'Test', value: 'test' },
+        { title: 'Production', value: 'prod' },
+      ],
+      group: 'pancake',
+      tab: 'payment',
+    },
+    {
+      name: 'pancake_api_base_url',
+      title: 'Pancake API Base URL',
+      type: 'url',
+      value: 'https://api.waffo.ai',
+      placeholder: 'https://api.waffo.ai',
+      group: 'pancake',
+      tab: 'payment',
+    },
+    {
+      name: 'pancake_merchant_id',
+      title: 'Pancake Merchant ID',
+      type: 'text',
+      placeholder: 'MER_xxx',
+      group: 'pancake',
+      tab: 'payment',
+    },
+    {
+      name: 'pancake_store_id',
+      title: 'Pancake Store ID',
+      type: 'text',
+      placeholder: 'STO_xxx',
+      group: 'pancake',
+      tab: 'payment',
+    },
+    {
+      name: 'pancake_private_key',
+      title: 'Pancake Private Key',
+      type: 'textarea',
+      attributes: { rows: 8 },
+      placeholder:
+        '-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----',
+      tip: 'Keep this RSA private key secret. It is used to sign Pancake API requests.',
+      group: 'pancake',
+      tab: 'payment',
+    },
+    {
+      name: 'pancake_webhook_public_key',
+      title: 'Pancake Webhook Public Key',
+      type: 'textarea',
+      attributes: { rows: 8 },
+      placeholder: 'Optional; leave blank to use the SDK built-in key',
+      tip: 'Optional RSA public key used to verify x-waffo-signature webhook requests.',
+      group: 'pancake',
+      tab: 'payment',
+    },
+    {
+      name: 'pancake_product_ids',
+      title: 'Pancake Product IDs Mapping',
+      type: 'textarea',
+      attributes: { rows: 6 },
+      placeholder: `{
+  "starter": "PROD_xxx",
+  "starter-monthly": "PROD_xxx"
+}`,
+      tip: 'Map each pricing product_id (or product_id_currency) to a Pancake product ID. Must be valid JSON.',
+      group: 'pancake',
       tab: 'payment',
     },
     {
@@ -951,6 +1041,7 @@ export const publicSettingNames = [
   'stripe_enabled',
   'creem_enabled',
   'paypal_enabled',
+  'pancake_enabled',
   'affonso_enabled',
   'promotekit_enabled',
   'crisp_enabled',

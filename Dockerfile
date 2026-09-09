@@ -1,14 +1,18 @@
 FROM node:22-alpine AS base
 
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
+RUN corepack enable && corepack prepare pnpm@9.15.9 --activate
+
 # Install dependencies only when needed
 FROM base AS deps
-RUN apk add --no-cache libc6-compat && yarn global add pnpm@10
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json pnpm-lock.yaml* source.config.ts next.config.mjs ./
-RUN pnpm i --frozen-lockfile
+COPY package.json pnpm-lock.yaml next.config.mjs ./
+RUN --mount=type=cache,id=shipany-pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM deps AS builder
@@ -17,7 +21,8 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY . .
-RUN pnpm build
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN --mount=type=cache,id=shipany-next-cache,target=/app/.next/cache pnpm build
 
 # Production image, copy all the files and run next
 FROM base AS runner

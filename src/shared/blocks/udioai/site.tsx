@@ -241,14 +241,21 @@ const WAIT_STEPS = [
 /**
  * The simulated generation queue. It never resolves on its own: the place in
  * line keeps moving, the bar keeps crawling, and the wait time keeps rolling.
+ *
+ * It is only reachable for a subscribed account: the CTA gate above opens it
+ * directly, and a `?queued=1` deep link is re-verified against the same
+ * subscription check before anything is shown.
  */
 export function UdioQueueOverlay() {
+  const router = useRouter();
+  const { user, isCheckSign, setIsShowSignModal } = useAppContext();
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState(486_213);
   const [progress, setProgress] = useState(9);
   const [step, setStep] = useState(0);
   const [waited, setWaited] = useState(0);
   const openedAt = useRef<number | null>(null);
+  const gateChecked = useRef(false);
 
   const show = useCallback(() => {
     openedAt.current = Date.now();
@@ -280,13 +287,64 @@ export function UdioQueueOverlay() {
   }, []);
 
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get(QUEUE_QUERY) === '1') {
-      show();
-    }
     const listener = () => show();
     window.addEventListener(QUEUE_EVENT, listener);
     return () => window.removeEventListener(QUEUE_EVENT, listener);
   }, [show]);
+
+  // A ?queued=1 deep link still has to pass the same gate as the CTAs:
+  // signed out -> the Google sign-in dialog; signed in without a plan ->
+  // /pricing; subscribed -> the queue that never resolves.
+  const stripQueueParam = useCallback(() => {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.delete(QUEUE_QUERY);
+      window.history.replaceState(null, '', url.toString());
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const verifyAccess = useCallback(async () => {
+    if (!user) {
+      stripQueueParam();
+      setIsShowSignModal(true);
+      return false;
+    }
+    try {
+      const response = await fetch('/api/user/get-subscription', {
+        method: 'POST',
+      });
+      if (response.status === 401 || response.status === 403) {
+        stripQueueParam();
+        setIsShowSignModal(true);
+        return false;
+      }
+      const result = await response.json().catch(() => ({}));
+      if (response.ok && result?.code === 0 && result?.data?.subscribed) {
+        return true;
+      }
+    } catch {
+      /* fall through to /pricing */
+    }
+    stripQueueParam();
+    router.replace('/pricing');
+    return false;
+  }, [user, router, setIsShowSignModal, stripQueueParam]);
+
+  useEffect(() => {
+    if (isCheckSign || gateChecked.current) return;
+    if (new URLSearchParams(window.location.search).get(QUEUE_QUERY) !== '1') {
+      return;
+    }
+    gateChecked.current = true;
+    (async () => {
+      const allowed = await verifyAccess();
+      if (allowed) {
+        show();
+      }
+    })();
+  }, [isCheckSign, verifyAccess, show]);
 
   useEffect(() => {
     if (!open) return;

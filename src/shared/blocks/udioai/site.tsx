@@ -21,6 +21,43 @@ import { trackEvent } from '@/shared/lib/analytics';
 export const QUEUE_QUERY = 'queued';
 export const QUEUE_EVENT = 'udioai:queue';
 
+/** Cross-page handoff: set before leaving the current page for the queue. */
+const QUEUE_INTENT_KEY = 'udioai:queue-intent';
+
+/**
+ * Capture a `?queued=1` deep link before the router/hydration can rewrite the
+ * address bar. Module scope runs before any effect, so this is the earliest
+ * point that still sees the query string of the initial document.
+ */
+const initialQueueParam = (() => {
+  if (typeof window === 'undefined') return null;
+  try {
+    return new URLSearchParams(window.location.search).get(QUEUE_QUERY);
+  } catch {
+    return null;
+  }
+})();
+
+function readQueueIntent() {
+  try {
+    return window.sessionStorage.getItem(QUEUE_INTENT_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function writeQueueIntent(value: boolean) {
+  try {
+    if (value) {
+      window.sessionStorage.setItem(QUEUE_INTENT_KEY, '1');
+    } else {
+      window.sessionStorage.removeItem(QUEUE_INTENT_KEY);
+    }
+  } catch {
+    /* sessionStorage can be unavailable; the in-page queue still works */
+  }
+}
+
 export function openQueue() {
   window.dispatchEvent(new Event(QUEUE_EVENT));
 }
@@ -43,29 +80,23 @@ export function UdioAction({
   ctaId?: string;
 }) {
   const router = useRouter();
-  const { user, isCheckSign, setIsShowSignModal } = useAppContext();
+  const { isCheckSign, setIsShowSignModal } = useAppContext();
   const [checking, setChecking] = useState(false);
 
   const act = async () => {
     if (checking || isCheckSign) return;
-    if (!user) {
-      trackEvent('cta_click', { cta_id: ctaId, destination: 'sign_in' });
-      setIsShowSignModal(true);
-      return;
-    }
 
     setChecking(true);
     try {
       const response = await fetch('/api/user/get-subscription', {
         method: 'POST',
       });
-      if (response.status === 401 || response.status === 403) {
-        setIsShowSignModal(true);
-        return;
-      }
       const result = await response.json().catch(() => ({}));
       if (!response.ok || result?.code !== 0) {
-        throw new Error(result?.message || 'Unable to check your plan');
+        // Signed out (or the check failed): ask for sign-in first.
+        trackEvent('cta_click', { cta_id: ctaId, destination: 'sign_in' });
+        setIsShowSignModal(true);
+        return;
       }
 
       if (!result?.data?.subscribed) {
@@ -79,9 +110,13 @@ export function UdioAction({
         window.location.pathname === '/' ||
         /\/$/.test(window.location.pathname)
       ) {
+        writeQueueIntent(false);
         openQueue();
         return;
       }
+      // The router may rewrite the query string on the way home, so carry the
+      // intent across the navigation explicitly as well.
+      writeQueueIntent(true);
       router.push(`/?${QUEUE_QUERY}=1`);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Please try again');
@@ -248,7 +283,7 @@ const WAIT_STEPS = [
  */
 export function UdioQueueOverlay() {
   const router = useRouter();
-  const { user, isCheckSign, setIsShowSignModal } = useAppContext();
+  const { isCheckSign, setIsShowSignModal } = useAppContext();
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState(486_213);
   const [progress, setProgress] = useState(9);
@@ -306,35 +341,38 @@ export function UdioQueueOverlay() {
   }, []);
 
   const verifyAccess = useCallback(async () => {
-    if (!user) {
-      stripQueueParam();
-      setIsShowSignModal(true);
-      return false;
-    }
     try {
       const response = await fetch('/api/user/get-subscription', {
         method: 'POST',
       });
-      if (response.status === 401 || response.status === 403) {
+      const result = await response.json().catch(() => ({}));
+      if (response.ok && result?.code === 0) {
+        if (result?.data?.subscribed) {
+          writeQueueIntent(false);
+          return true;
+        }
+        // Signed in without a plan: the queue stays off-limits.
         stripQueueParam();
-        setIsShowSignModal(true);
+        writeQueueIntent(false);
+        router.replace('/pricing');
         return false;
       }
-      const result = await response.json().catch(() => ({}));
-      if (response.ok && result?.code === 0 && result?.data?.subscribed) {
-        return true;
-      }
     } catch {
-      /* fall through to /pricing */
+      /* fall through to the sign-in dialog */
     }
+    // Signed out (or the plan check failed): ask for sign-in, never queue.
     stripQueueParam();
-    router.replace('/pricing');
+    writeQueueIntent(false);
+    setIsShowSignModal(true);
     return false;
-  }, [user, router, setIsShowSignModal, stripQueueParam]);
+  }, [router, setIsShowSignModal, stripQueueParam]);
 
   useEffect(() => {
     if (isCheckSign || gateChecked.current) return;
-    if (new URLSearchParams(window.location.search).get(QUEUE_QUERY) !== '1') {
+    const deepLinked =
+      initialQueueParam === '1' ||
+      new URLSearchParams(window.location.search).get(QUEUE_QUERY) === '1';
+    if (!deepLinked && !readQueueIntent()) {
       return;
     }
     gateChecked.current = true;

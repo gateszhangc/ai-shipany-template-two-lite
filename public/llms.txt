@@ -1,0 +1,32 @@
+# Udio AI (udioai.lol)
+
+> An AI music studio: describe a song in plain text and Udio AI writes the
+> lyrics, music, vocals and mix in seconds, then lets you extend, inpaint and
+> remix the result.
+
+This is an English-only music generation site. The home page, pricing page and
+legal pages are public; creating and saving songs requires Google sign-in, and
+generation is available to accounts with an active subscription.
+
+## Pages
+
+- [Home](https://udioai.lol/): what Udio AI does, example songs from the feed,
+  the editing tools, and the live generation queue.
+- [Pricing](https://udioai.lol/pricing): Standard, Pro and Ultra plans, monthly
+  or annual, billed by Stripe.
+- [Terms and Conditions](https://udioai.lol/terms-of-service)
+- [Privacy Policy](https://udioai.lol/privacy-policy)
+
+## Key facts
+
+- Product: Udio AI, an AI music generator and editing studio.
+- Input: a text prompt (optionally with lyrics, tuning and a reference audio).
+- Output: a full song with vocals and instrumentation, extendable and editable
+  with Inpaint, Extend, Remix and Upload Song tools.
+- Plans: Standard from $10/month, Pro from $30/month, Ultra from $99/month;
+  annual billing saves about 20%.
+- Sign-in: Google. Payments: Stripe.
+
+## Contact
+
+- support@udioai.lol

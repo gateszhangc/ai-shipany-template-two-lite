@@ -1,15 +1,20 @@
+import '@/config/style/udioai.css';
+
 import { ReactNode } from 'react';
 
-import '@/config/style/falcon2.css';
-
-import { FalconFooter, FalconHeader } from '@/shared/blocks/falcon2/site';
+import {
+  UdioFooter,
+  UdioHeader,
+  UdioQueueOverlay,
+} from '@/shared/blocks/udioai/site';
 
 export default function LandingLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="gen-shell">
-      <FalconHeader />
-      {children}
-      <FalconFooter />
+    <div className="ua-shell">
+      <UdioHeader />
+      <main className="ua-main">{children}</main>
+      <UdioFooter />
+      <UdioQueueOverlay />
     </div>
   );
 }

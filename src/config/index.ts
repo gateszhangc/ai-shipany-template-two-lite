@@ -6,16 +6,16 @@ import packageJson from '../../package.json';
 export type ConfigMap = Record<string, string>;
 
 export const envConfigs: ConfigMap = {
-  app_url: process.env.NEXT_PUBLIC_APP_URL ?? 'https://falcon2.lol',
-  app_name: process.env.NEXT_PUBLIC_APP_NAME ?? 'Falcon 2',
+  app_url: process.env.NEXT_PUBLIC_APP_URL ?? 'https://udioai.lol',
+  app_name: process.env.NEXT_PUBLIC_APP_NAME ?? 'Udio AI',
   app_description:
     process.env.NEXT_PUBLIC_APP_DESCRIPTION ??
-    'Falcon 2 language model suite for multilingual and multimodal AI experiences.',
-  app_logo: process.env.NEXT_PUBLIC_APP_LOGO ?? '/falcon2-logo.svg',
-  app_favicon: process.env.NEXT_PUBLIC_APP_FAVICON ?? '/falcon2-favicon.svg',
+    'Create any song. Just imagine it. Udio AI turns a text prompt into a full track with vocals, instruments and mixing in seconds.',
+  app_logo: process.env.NEXT_PUBLIC_APP_LOGO ?? '/udioai-logo.svg',
+  app_favicon: process.env.NEXT_PUBLIC_APP_FAVICON ?? '/udioai-favicon.svg',
   app_preview_image:
     process.env.NEXT_PUBLIC_APP_PREVIEW_IMAGE ?? '/preview.png',
-  theme: process.env.NEXT_PUBLIC_THEME ?? 'falcon2',
+  theme: process.env.NEXT_PUBLIC_THEME ?? 'default',
   appearance: process.env.NEXT_PUBLIC_APPEARANCE ?? 'dark',
   locale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'en',
   database_url: process.env.DATABASE_URL ?? '',
@@ -37,6 +37,7 @@ export const envConfigs: ConfigMap = {
   db_max_connections: process.env.DB_MAX_CONNECTIONS || '1',
   auth_url: process.env.AUTH_URL || process.env.NEXT_PUBLIC_APP_URL || '',
   auth_secret: process.env.AUTH_SECRET ?? '', // openssl rand -base64 32
+  ga_id: process.env.GA_MEASUREMENT_ID ?? process.env.NEXT_PUBLIC_GA_ID ?? '',
   version: packageJson.version,
   locale_detect_enabled:
     process.env.NEXT_PUBLIC_LOCALE_DETECT_ENABLED ?? 'false',

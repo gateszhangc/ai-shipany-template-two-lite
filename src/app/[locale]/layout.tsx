@@ -1,6 +1,5 @@
 import '@/config/style/global.css';
 
-import { JetBrains_Mono, Merriweather, Noto_Sans_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
@@ -10,32 +9,11 @@ import { envConfigs } from '@/config';
 import { locales } from '@/config/locale';
 import { routing } from '@/core/i18n/config';
 import { ThemeProvider } from '@/core/theme/provider';
+import { GoogleAnalytics } from '@/shared/blocks/common/google-analytics';
 import { UtmCapture } from '@/shared/blocks/common/utm-capture';
 import { Toaster } from '@/shared/components/ui/sonner';
 import { AppContextProvider } from '@/shared/contexts/app';
 import { getMetadata } from '@/shared/lib/seo';
-
-const notoSansMono = Noto_Sans_Mono({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-  preload: true,
-});
-
-const merriweather = Merriweather({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-serif',
-  display: 'swap',
-  preload: true,
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-  preload: true,
-});
 
 export const generateMetadata = getMetadata();
 
@@ -56,11 +34,7 @@ export default async function LocaleLayout({
   const appUrl = envConfigs.app_url || '';
 
   return (
-    <html
-      lang={locale}
-      className={`${notoSansMono.variable} ${merriweather.variable} ${jetbrainsMono.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="icon" href={envConfigs.app_favicon} />
         <link rel="alternate icon" href="/favicon.ico" />
@@ -76,18 +50,11 @@ export default async function LocaleLayout({
               />
             ))
           : null}
-
-
-
-
-
-
-
-
       </head>
       <body suppressHydrationWarning className="overflow-x-hidden">
+        <GoogleAnalytics measurementId={envConfigs.ga_id} />
         <NextTopLoader
-          color="#6466F1"
+          color="#E30B5D"
           initialPosition={0.08}
           crawlSpeed={200}
           height={3}
@@ -107,10 +74,6 @@ export default async function LocaleLayout({
             </AppContextProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
-
-
-
-
       </body>
     </html>
   );

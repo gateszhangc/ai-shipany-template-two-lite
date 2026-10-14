@@ -38,6 +38,17 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/src/config/locale ./src/config/locale
 
+# The deploy platform runs `drizzle-kit push` as an init container before the
+# workload starts (see deploy-system/manifests.js detectMigrationSupport), so
+# the runtime image keeps node_modules, the drizzle config sources and the
+# files that read the environment.
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+COPY --from=builder --chown=nextjs:nodejs /app/src ./src
+COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/next.config.mjs ./next.config.mjs
+
 USER nextjs
 
 EXPOSE 3000

@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "swarmrebuild-xyz",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "observability": { "enabled": true },
+  "workers_dev": true,
+  "preview_urls": true,
+  "upload_source_maps": false,
+  "vars": { "NEXT_PUBLIC_APP_URL": "https://swarmrebuild.xyz", "PUBLIC_SITE_URL": "https://swarmrebuild.xyz" },
+  "routes": [
+    { "pattern": "swarmrebuild.xyz", "custom_domain": true },
+    { "pattern": "www.swarmrebuild.xyz", "custom_domain": true }
+  ]
+}

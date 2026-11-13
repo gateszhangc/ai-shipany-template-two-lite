@@ -1,19 +1,29 @@
-# ShipAny Template Two
+# Swarm Rebuild
 
-## Getting Started
+English-only marketing site for **Swarm Rebuild**, a Chrome extension that
+wipes any web page to a blank canvas and lets a swarm of multiplayer cursors
+build it back live.
 
-read [ShipAny Document](https://shipany.ai/docs/quick-start) to start your AI SaaS project.
+## Local development
 
-## Buy Templates
+```bash
+pnpm install
+pnpm dev
+```
 
-check [ShipAny Templates](https://shipany.ai/templates) to buy Business Templates.
+## Verification
 
-## Feedback
+```bash
+pnpm exec tsc --noEmit
+pnpm build
+```
 
-submit your feedbacks on [Github Issues](https://github.com/shipanyai/shipany-template-two/issues)
+## Product flow
 
-## LICENSE
+- Act while signed out: opens the Google sign-in dialog.
+- Act while signed in without a paid plan: redirects to `/pricing`.
+- Act while signed in with an active subscription: opens the intentionally
+  endless demo build queue.
+- Pricing buttons open Stripe hosted checkout directly with no provider picker.
 
-!!! Please do not publicly release ShipAny's Code. Illegal use will be prosecuted
-
-[ShipAny LICENSE](./LICENSE)
+The repository contains no production credentials and performs no deployment.

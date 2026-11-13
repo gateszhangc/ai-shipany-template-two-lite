@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Swarm Rebuild">
+  <defs>
+    <linearGradient id="bg" x1="8" y1="5" x2="55" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#20242B"/>
+      <stop offset="1" stop-color="#0E1013"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity=".22"/>
+    </filter>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <path d="M16 20.5h20M16 31.5h15M16 42.5h20" stroke="#5B6472" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>
+  <rect x="26.5" y="25.5" width="22" height="22" rx="3.5" fill="none" stroke="#0D99FF" stroke-width="2.2"/>
+  <path d="M26.5 25.5h-2.7v2.7M48.5 25.5h2.7v2.7M26.5 47.5h-2.7v-2.7M48.5 47.5h2.7v-2.7" stroke="#7DCBFF" stroke-width="1.6" stroke-linecap="round"/>
+  <g filter="url(#shadow)">
+    <path d="m35 33 13 5.2-5.4 2.1-2.2 5.4L35 33Z" fill="#FF6B62"/>
+    <path d="m22 17.4 8.6 3.4-3.5 1.5-1.5 3.5-3.6-8.4Z" fill="#8B5CF6"/>
+    <path d="m45.6 38.6 7.1 2.8-2.9 1.2-1.2 2.9-3-6.9Z" fill="#F5B82E"/>
+  </g>
+</svg>

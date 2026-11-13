@@ -1,16 +1,19 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { Pricing } from '@/themes/default/blocks/pricing';
+import { SwarmPricing } from '@/shared/blocks/swarm/pricing';
 import { getMetadata } from '@/shared/lib/seo';
 import { getCurrentSubscription } from '@/shared/models/subscription';
 import { getUserInfo } from '@/shared/models/user';
-import { DynamicPage } from '@/shared/types/blocks/landing';
+import { Pricing as PricingType } from '@/shared/types/blocks/pricing';
 
 export const revalidate = 3600;
 
 export const generateMetadata = getMetadata({
-  metadataKey: 'pages.pricing.metadata',
+  title: 'Swarm Rebuild Pricing — Paid Plans with Stripe Checkout',
+  description:
+    'Choose a Swarm Rebuild plan. Every tier is paid, billed securely by Stripe and unlocks the full cursor swarm. No free plan.',
   canonicalUrl: '/pricing',
+  imageUrl: '/swarm/og.png',
 });
 
 export default async function PricingPage({
@@ -21,7 +24,6 @@ export default async function PricingPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  // get current subscription
   let currentSubscription;
   try {
     const user = await getUserInfo();
@@ -32,22 +34,18 @@ export default async function PricingPage({
     console.log('getting current subscription failed:', error);
   }
 
-  // get pricing data
   const t = await getTranslations('pages.pricing');
+  const section = t.raw('page.sections.pricing') as PricingType;
 
-  // build page sections
-  const page: DynamicPage = {
-    title: t.raw('page.title'),
-    sections: {
-      pricing: {
-        ...t.raw('page.sections.pricing'),
-        data: {
-          currentSubscription,
-        },
-      },
-    },
-  };
+  return (
+    <>
+      <section className="sw-page-hero">
+        <p className="sw-eyebrow">One canvas · three ways in</p>
+        <h1>{t('page.title')}</h1>
+        <p>{t('page.description')}</p>
+      </section>
 
-  // load page component
-  return <><h1 className="sr-only">{page.title}</h1><Pricing section={t.raw('page.sections.pricing')} currentSubscription={currentSubscription} /></>;
+      <SwarmPricing section={section} currentSubscription={currentSubscription} />
+    </>
+  );
 }

@@ -1,32 +1,34 @@
-# Udio AI (udioai.lol)
+# Swarm Rebuild (swarmrebuild.xyz)
 
-> An AI music studio: describe a song in plain text and Udio AI writes the
-> lyrics, music, vocals and mix in seconds, then lets you extend, inpaint and
-> remix the result.
+> Swarm Rebuild is a Chrome extension that wipes any web page to a blank
+> canvas and lets a swarm of multiplayer cursors rebuild it live with boxes,
+> typed text, pen-tool lines, ruler guides and alt-drag duplicates.
 
-This is an English-only music generation site. The home page, pricing page and
-legal pages are public; creating and saving songs requires Google sign-in, and
-generation is available to accounts with an active subscription.
+This is an English-only product site. The home page, pricing page and legal
+pages are public. The Act action uses Google sign-in and an active paid plan;
+the browser extension itself runs locally and does not send page content to a
+server.
 
 ## Pages
 
-- [Home](https://udioai.lol/): what Udio AI does, example songs from the feed,
-  the editing tools, and the live generation queue.
-- [Pricing](https://udioai.lol/pricing): Standard, Pro and Ultra plans, monthly
-  or annual, billed by Stripe.
-- [Terms and Conditions](https://udioai.lol/terms-of-service)
-- [Privacy Policy](https://udioai.lol/privacy-policy)
+- [Home](https://swarmrebuild.xyz/): the rebuild animation, what the swarm
+  rebuilds, how the snapshot/blank/rebuild sequence works, sound design,
+  privacy and product limits.
+- [Pricing](https://swarmrebuild.xyz/pricing): Solo, Studio and Team plans,
+  monthly or annual, paid through Stripe. There is no free tier.
+- [Terms of Service](https://swarmrebuild.xyz/terms-of-service)
+- [Privacy Policy](https://swarmrebuild.xyz/privacy-policy)
 
 ## Key facts
 
-- Product: Udio AI, an AI music generator and editing studio.
-- Input: a text prompt (optionally with lyrics, tuning and a reference audio).
-- Output: a full song with vocals and instrumentation, extendable and editable
-  with Inpaint, Extend, Remix and Upload Song tools.
-- Plans: Standard from $10/month, Pro from $30/month, Ultra from $99/month;
-  annual billing saves about 20%.
-- Sign-in: Google. Payments: Stripe.
+- Product: Swarm Rebuild, a visual page-rebuild Chrome extension.
+- Input: any regular web page the user invokes the extension on.
+- Output: an animated, local visual rebuild of the page with a multi-cursor
+  design-tool choreography.
+- Privacy: no analytics or uploads from the extension; page snapshots stay in
+  the current tab memory.
+- Sign-in: Google. Payments: Stripe hosted checkout, opened directly.
 
 ## Contact
 
-- support@udioai.lol
+- support@swarmrebuild.xyz

@@ -1,14 +1,14 @@
 {
   "metadata": {
-    "title": "Udio | AI Music Generator - Official Website",
-    "description": "Discover, create, and share music with the world. Use the latest technology to create AI music in seconds.",
-    "keywords": "ai music, ai music generator, ai song generator, ai generated music, ai music creator"
+    "title": "Swarm Rebuild — Watch a Swarm Rebuild Any Web Page",
+    "description": "Wipe any web page to a blank canvas and watch a swarm of multiplayer cursors rebuild it live with boxes, text, guides and duplicates.",
+    "keywords": "swarm rebuild, chrome extension, cursor animation, page rebuild, design tool animation, multiplayer cursors"
   },
   "sign": {
-    "sign_in_title": "Sign In",
-    "sign_in_description": "Sign in to your account",
-    "sign_up_title": "Sign Up",
-    "sign_up_description": "Create an account",
+    "sign_in_title": "Sign in to Swarm Rebuild",
+    "sign_in_description": "Continue with Google to hold your place, sync your plan and let the swarm loose.",
+    "sign_up_title": "Create your account",
+    "sign_up_description": "Continue with Google to create your Swarm Rebuild account.",
     "email_title": "Email",
     "email_placeholder": "Input your email here",
     "password_title": "Password",
@@ -19,7 +19,7 @@
     "no_account": "Don't have an account?",
     "already_have_account": "Already have an account?",
     "email_sign_in": "Sign in with Email",
-    "google_sign_in_title": "Sign in with Google",
+    "google_sign_in_title": "Continue with Google",
     "github_sign_in_title": "Sign in with GitHub",
     "close_title": "Close",
     "cancel_title": "Cancel",

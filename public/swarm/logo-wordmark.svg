@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 72" role="img" aria-label="Swarm Rebuild">
+  <rect x="2" y="4" width="64" height="64" rx="15" fill="#121417"/>
+  <rect x="24" y="24" width="24" height="24" rx="4" fill="none" stroke="#0D99FF" stroke-width="2.5"/>
+  <path d="M24 24h-2.6v2.6M48 24h2.6v2.6M24 48h-2.6v-2.6M48 48h2.6v-2.6" stroke="#7DCBFF" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="m34.5 33.5 14 5.5-6 2.4-2.4 6-5.6-13.9Z" fill="#FF6B62"/>
+  <path d="m21 18 9.3 3.7-4 1.6-1.6 4L21 18Z" fill="#8B5CF6"/>
+  <path d="m46 39.5 7.6 3-3.2 1.3-1.3 3.2-3.1-7.5Z" fill="#F5B82E"/>
+  <text x="82" y="39" fill="#121417" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="-1.2">swarm</text>
+  <text x="205" y="39" fill="#0D99FF" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="600" letter-spacing="-1.2">rebuild</text>
+  <text x="82" y="57" fill="#6C737D" font-family="JetBrains Mono, monospace" font-size="8.5" font-weight="500" letter-spacing="1.15">WIPE. WATCH. REBUILD.</text>
+</svg>

@@ -54,7 +54,7 @@ export default async function LocaleLayout({
       <body suppressHydrationWarning className="overflow-x-hidden">
         <GoogleAnalytics measurementId={envConfigs.ga_id} />
         <NextTopLoader
-          color="#E30B5D"
+          color="#0D99FF"
           initialPosition={0.08}
           crawlSpeed={200}
           height={3}

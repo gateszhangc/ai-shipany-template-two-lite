@@ -1,20 +1,20 @@
 {
   "metadata": {
-    "title": "Pricing — Udio AI",
-    "description": "Udio AI plans: Standard, Pro and Ultra. Monthly or annual, cancel anytime, billed securely by Stripe."
+    "title": "Swarm Rebuild Pricing — Paid Plans with Stripe Checkout",
+    "description": "Choose a Swarm Rebuild plan. Every tier is paid, billed securely by Stripe and unlocks the full cursor swarm. No free plan."
   },
   "messages": {
     "current_plan": "Current plan",
-    "processing": "Processing"
+    "processing": "Opening Stripe"
   },
   "page": {
-    "title": "Udio AI pricing",
+    "title": "Pick your swarm.",
+    "description": "One extension, one canvas, three levels of build speed. Every plan is paid, unlocks the complete cursor choreography and checks out directly on Stripe.",
     "sections": {
       "pricing": {
-        "id": "pricing",
-        "sr_only_title": "Udio AI pricing",
-        "title": "Pick the plan that matches how you make music",
-        "description": "Every plan includes the full Udio AI generation and editing studio. Cancel anytime.",
+        "id": "plans",
+        "title": "Swarm Rebuild plans",
+        "description": "No free tier. Cancel anytime.",
         "groups": [
           {
             "name": "monthly",
@@ -24,200 +24,194 @@
           {
             "name": "yearly",
             "title": "Annually",
-            "label": "Save 20%"
+            "label": "Save 22%"
           }
         ],
         "items": [
           {
-            "title": "Standard",
-            "description": "For getting your first songs made, fast.",
+            "title": "Solo",
+            "description": "For one curious builder who wants every cursor in the swarm.",
             "features_title": "Includes",
             "features": [
-              "1,200 generations a month",
-              "Extend, Inpaint and Remix tools",
-              "Upload your own audio",
-              "Publish to the Udio feed",
-              "Standard generation queue",
+              "Unlimited manual rebuilds",
+              "All five builder tools",
+              "Tour, replay and 1× / 2× / 3× speed",
+              "Synthesized sound and toolbar controls",
+              "Local-only page snapshots",
               "Cancel anytime"
             ],
             "interval": "month",
-            "amount": 1000,
+            "amount": 900,
             "currency": "USD",
-            "price": "$10",
+            "price": "$9",
             "unit": "/mo",
             "is_featured": false,
-            "tip": "Billed monthly. Cancel anytime.",
+            "tip": "Billed monthly through Stripe.",
             "button": {
-              "title": "Get started",
-              "url": "/pricing",
-              "icon": "RiFlashlightFill"
+              "title": "Continue to Stripe"
             },
-            "product_id": "udioai-standard-monthly",
-            "product_name": "Udio AI Standard plan (monthly)",
+            "product_id": "swarm-solo-monthly",
+            "product_name": "Swarm Rebuild Solo plan (monthly)",
+            "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 30,
             "group": "monthly",
-            "plan_name": "Standard"
+            "plan_name": "Solo"
           },
           {
-            "title": "Pro",
-            "description": "For songwriters and producers shipping real tracks.",
+            "title": "Studio",
+            "description": "For people recording, presenting and rebuilding pages all day.",
             "label": "Most popular",
-            "features_title": "Everything in Standard, plus",
+            "features_title": "Everything in Solo, plus",
             "features": [
-              "4,000 generations a month",
-              "High-fidelity audio downloads",
-              "Priority generation queue",
-              "Advanced editing: crop, fade, multi-track stems",
-              "Full commercial usage rights",
+              "3× swarm build speed",
+              "Priority demo queue placement",
+              "Clean recording mode and tour presets",
+              "Early access to new cursor behaviors",
+              "Media-rich page support",
               "Cancel anytime"
             ],
             "interval": "month",
-            "amount": 3000,
+            "amount": 1800,
             "currency": "USD",
-            "price": "$30",
+            "price": "$18",
             "unit": "/mo",
             "is_featured": true,
-            "tip": "Billed monthly. Cancel anytime.",
+            "tip": "Billed monthly through Stripe.",
             "button": {
-              "title": "Get started",
-              "url": "/pricing",
-              "icon": "RiFlashlightFill"
+              "title": "Continue to Stripe"
             },
-            "product_id": "udioai-pro-monthly",
-            "product_name": "Udio AI Pro plan (monthly)",
+            "product_id": "swarm-studio-monthly",
+            "product_name": "Swarm Rebuild Studio plan (monthly)",
+            "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 30,
             "group": "monthly",
-            "plan_name": "Pro"
+            "plan_name": "Studio"
           },
           {
-            "title": "Ultra",
-            "description": "For power creators making music every day.",
-            "features_title": "Everything in Pro, plus",
+            "title": "Team",
+            "description": "For teams turning every review and launch into a live rebuild.",
+            "features_title": "Everything in Studio, plus",
             "features": [
-              "Unlimited generations",
-              "Fastest queue with dedicated capacity",
-              "Stem separation and lossless exports",
-              "Early access to new models and tools",
-              "Direct support line",
+              "Shared rebuild presets",
+              "Dedicated demo queue lane",
+              "Priority support line",
+              "Team-ready billing records",
+              "Early access to future surfaces",
               "Cancel anytime"
             ],
             "interval": "month",
-            "amount": 9900,
+            "amount": 3600,
             "currency": "USD",
-            "price": "$99",
+            "price": "$36",
             "unit": "/mo",
             "is_featured": false,
-            "tip": "Billed monthly. Cancel anytime.",
+            "tip": "Billed monthly through Stripe.",
             "button": {
-              "title": "Get started",
-              "url": "/pricing",
-              "icon": "RiFlashlightFill"
+              "title": "Continue to Stripe"
             },
-            "product_id": "udioai-ultra-monthly",
-            "product_name": "Udio AI Ultra plan (monthly)",
+            "product_id": "swarm-team-monthly",
+            "product_name": "Swarm Rebuild Team plan (monthly)",
+            "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 30,
             "group": "monthly",
-            "plan_name": "Ultra"
+            "plan_name": "Team"
           },
           {
-            "title": "Standard",
-            "description": "For getting your first songs made, fast.",
+            "title": "Solo",
+            "description": "For one curious builder who wants every cursor in the swarm.",
             "features_title": "Includes",
             "features": [
-              "1,200 generations a month",
-              "Extend, Inpaint and Remix tools",
-              "Upload your own audio",
-              "Publish to the Udio feed",
-              "Standard generation queue",
+              "Unlimited manual rebuilds",
+              "All five builder tools",
+              "Tour, replay and 1× / 2× / 3× speed",
+              "Synthesized sound and toolbar controls",
+              "Local-only page snapshots",
               "Cancel anytime"
             ],
             "interval": "year",
-            "amount": 9600,
+            "amount": 8400,
             "currency": "USD",
-            "price": "$8",
-            "original_price": "$10",
+            "price": "$7",
+            "original_price": "$9",
             "unit": "/mo",
             "is_featured": false,
-            "tip": "Billed annually. Cancel anytime.",
+            "tip": "Billed annually through Stripe.",
             "button": {
-              "title": "Get started",
-              "url": "/pricing",
-              "icon": "RiFlashlightFill"
+              "title": "Continue to Stripe"
             },
-            "product_id": "udioai-standard-yearly",
-            "product_name": "Udio AI Standard plan (annual)",
+            "product_id": "swarm-solo-yearly",
+            "product_name": "Swarm Rebuild Solo plan (annual)",
+            "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 365,
             "group": "yearly",
-            "plan_name": "Standard"
+            "plan_name": "Solo"
           },
           {
-            "title": "Pro",
-            "description": "For songwriters and producers shipping real tracks.",
+            "title": "Studio",
+            "description": "For people recording, presenting and rebuilding pages all day.",
             "label": "Most popular",
-            "features_title": "Everything in Standard, plus",
+            "features_title": "Everything in Solo, plus",
             "features": [
-              "4,000 generations a month",
-              "High-fidelity audio downloads",
-              "Priority generation queue",
-              "Advanced editing: crop, fade, multi-track stems",
-              "Full commercial usage rights",
+              "3× swarm build speed",
+              "Priority demo queue placement",
+              "Clean recording mode and tour presets",
+              "Early access to new cursor behaviors",
+              "Media-rich page support",
               "Cancel anytime"
             ],
             "interval": "year",
-            "amount": 28800,
+            "amount": 16800,
             "currency": "USD",
-            "price": "$24",
-            "original_price": "$30",
+            "price": "$14",
+            "original_price": "$18",
             "unit": "/mo",
             "is_featured": true,
-            "tip": "Billed annually. Cancel anytime.",
+            "tip": "Billed annually through Stripe.",
             "button": {
-              "title": "Get started",
-              "url": "/pricing",
-              "icon": "RiFlashlightFill"
+              "title": "Continue to Stripe"
             },
-            "product_id": "udioai-pro-yearly",
-            "product_name": "Udio AI Pro plan (annual)",
+            "product_id": "swarm-studio-yearly",
+            "product_name": "Swarm Rebuild Studio plan (annual)",
+            "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 365,
             "group": "yearly",
-            "plan_name": "Pro"
+            "plan_name": "Studio"
           },
           {
-            "title": "Ultra",
-            "description": "For power creators making music every day.",
-            "features_title": "Everything in Pro, plus",
+            "title": "Team",
+            "description": "For teams turning every review and launch into a live rebuild.",
+            "features_title": "Everything in Studio, plus",
             "features": [
-              "Unlimited generations",
-              "Fastest queue with dedicated capacity",
-              "Stem separation and lossless exports",
-              "Early access to new models and tools",
-              "Direct support line",
+              "Shared rebuild presets",
+              "Dedicated demo queue lane",
+              "Priority support line",
+              "Team-ready billing records",
+              "Early access to future surfaces",
               "Cancel anytime"
             ],
             "interval": "year",
-            "amount": 94800,
+            "amount": 33600,
             "currency": "USD",
-            "price": "$79",
-            "original_price": "$99",
+            "price": "$28",
+            "original_price": "$36",
             "unit": "/mo",
             "is_featured": false,
-            "tip": "Billed annually. Cancel anytime.",
+            "tip": "Billed annually through Stripe.",
             "button": {
-              "title": "Get started",
-              "url": "/pricing",
-              "icon": "RiFlashlightFill"
+              "title": "Continue to Stripe"
             },
-            "product_id": "udioai-ultra-yearly",
-            "product_name": "Udio AI Ultra plan (annual)",
+            "product_id": "swarm-team-yearly",
+            "product_name": "Swarm Rebuild Team plan (annual)",
+            "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 365,
             "group": "yearly",
-            "plan_name": "Ultra"
+            "plan_name": "Team"
           }
         ]
       }

@@ -1,20 +1,20 @@
-import '@/config/style/swarm.css';
+import '@/config/style/galaxy.css';
 
 import { ReactNode } from 'react';
 
 import {
-  SwarmFooter,
-  SwarmHeader,
-  SwarmQueueOverlay,
-} from '@/shared/blocks/swarm/site';
+  GalaxyFooter,
+  GalaxyHeader,
+  GalaxyQueueOverlay,
+} from '@/shared/blocks/galaxy/site';
 
 export default function LandingLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="sw-shell">
-      <SwarmHeader />
-      <main className="sw-main">{children}</main>
-      <SwarmFooter />
-      <SwarmQueueOverlay />
+    <div className="gx-shell">
+      <GalaxyHeader />
+      <main className="gx-main">{children}</main>
+      <GalaxyFooter />
+      <GalaxyQueueOverlay />
     </div>
   );
 }

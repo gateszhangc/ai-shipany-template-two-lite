@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 import { envConfigs } from '@/config';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = (envConfigs.app_url || 'https://swarmrebuild.xyz').replace(
+  const base = (envConfigs.app_url || 'https://galaxyai.homes').replace(
     /\/$/,
     ''
   );

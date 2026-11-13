@@ -3,7 +3,6 @@ import { envConfigs } from '@/config';
 import { getD1Db } from './d1';
 import { closeMysqlDb, getMysqlDb } from './mysql';
 import { closePostgresDb, getPostgresDb } from './postgres';
-import { getSqliteDb } from './sqlite';
 
 const mysqlCompatProxyCache = new WeakMap<object, any>();
 const sqliteCompatProxyCache = new WeakMap<object, any>();
@@ -197,7 +196,7 @@ export function db(): any {
   }
 
   if (['sqlite', 'turso'].includes(envConfigs.database_provider)) {
-    return withSqliteCompat(getSqliteDb() as any, envConfigs.database_provider);
+    throw new Error('SQLite/libsql is not supported on this deployment');
   }
 
   if (envConfigs.database_provider === 'mysql') {
@@ -223,12 +222,12 @@ export function dbMysql(): ReturnType<typeof getMysqlDb> {
   return getMysqlDb();
 }
 
-export function dbSqlite(): ReturnType<typeof getSqliteDb> {
+export function dbSqlite(): never {
   if (!['sqlite', 'turso'].includes(envConfigs.database_provider)) {
     throw new Error('Database provider is not SQLite');
   }
 
-  return getSqliteDb();
+  throw new Error('SQLite/libsql is not supported on this deployment');
 }
 
 export function dbD1(): ReturnType<typeof getD1Db> {

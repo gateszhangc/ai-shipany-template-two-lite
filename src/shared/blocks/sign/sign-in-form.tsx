@@ -202,6 +202,7 @@ export function SignInForm({
           callbackUrl={callbackUrl || '/'}
           loading={loading}
           setLoading={setLoading}
+          googleOnly={googleOnly}
         />
       </div>
       {isEmailAuthEnabled && (

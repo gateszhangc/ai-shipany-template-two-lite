@@ -1,14 +1,14 @@
 {
   "metadata": {
-    "title": "Swarm Rebuild — Watch a Swarm Rebuild Any Web Page",
-    "description": "Wipe any web page to a blank canvas and watch a swarm of multiplayer cursors rebuild it live with boxes, text, guides and duplicates.",
-    "keywords": "swarm rebuild, chrome extension, cursor animation, page rebuild, design tool animation, multiplayer cursors"
+    "title": "GalaxyAI Inc. — We build, acquire & scale iconic AI products",
+    "description": "GalaxyAI Inc. builds, acquires and scales iconic AI products to put the power of AI in everyone’s hands.",
+    "keywords": "GalaxyAI, Galaxy AI, Magica, Spiral, AI products, artificial intelligence company"
   },
   "sign": {
-    "sign_in_title": "Sign in to Swarm Rebuild",
-    "sign_in_description": "Continue with Google to hold your place, sync your plan and let the swarm loose.",
-    "sign_up_title": "Create your account",
-    "sign_up_description": "Continue with Google to create your Swarm Rebuild account.",
+    "sign_in_title": "Sign in to GalaxyAI",
+    "sign_in_description": "Continue with Google to check your membership and enter the Galaxy Studio queue.",
+    "sign_up_title": "Create your GalaxyAI account",
+    "sign_up_description": "Continue with Google to create your GalaxyAI account.",
     "email_title": "Email",
     "email_placeholder": "Input your email here",
     "password_title": "Password",

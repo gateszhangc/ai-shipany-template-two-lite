@@ -5,44 +5,40 @@ import { getMetadata } from '@/shared/lib/seo';
 export const revalidate = 3600;
 
 export const generateMetadata = getMetadata({
-  title: 'Privacy Policy — Swarm Rebuild',
+  title: 'Privacy Policy — GalaxyAI Inc.',
   description:
-    'How swarmrebuild.xyz handles account data, Stripe billing and the page snapshots created by the Swarm Rebuild Chrome extension.',
+    'How galaxyai.homes handles Google account data, Stripe billing and membership information.',
   canonicalUrl: '/privacy-policy',
 });
 
 const sections = [
   [
     '1. The short version',
-    'Swarm Rebuild does not collect or transmit the pages you rebuild. The extension keeps its page snapshot in the current tab and discards it when you exit or leave the page. This website only stores the account and billing details needed to operate a paid plan.',
+    'GalaxyAI collects only the account, membership and billing information needed to operate this website. We do not sell personal information. Checkout card details are handled by Stripe and never reach our servers.',
   ],
   [
-    '2. The extension',
-    'By default the extension uses Chrome activeTab permission, so it only touches the tab you click and only at that moment. If you turn on automatic play, Chrome first asks for access to the sites you choose. Switching back to click-only removes that access. The extension makes no analytics calls, uploads no page content and loads no remote code.',
+    '2. Website accounts',
+    'When you sign in with Google, we receive the account details Google shares, such as your name, email address and profile picture. We store those details with your session and subscription state so the site can recognise your account, confirm an active plan and show the correct billing information.',
   ],
   [
-    '3. Page snapshots and screenshots',
-    'To rebuild a page, the extension reads layout and styles in your browser. For WebGL canvases, playing video and embedded frames, it takes one screenshot of the visible tab and crops those regions. The blueprint and screenshot live only in that tab memory and are not sent to us.',
+    '3. The Act queue',
+    'Act checks whether you are signed in and whether your account has an active membership. It does not send product prompts or confidential work to the queue. The queue shown on this site is a deliberately endless interface demonstration.',
   ],
   [
-    '4. Website accounts',
-    'When you sign in with Google, we receive the account details Google shares, such as your name, email address and profile picture. We store those details with your session and subscription state so the site can recognize your account and show your current plan.',
-  ],
-  [
-    '5. Payments',
+    '4. Payments',
     'Card details never reach our servers. Checkout, renewals, invoices and payment-method updates are hosted by Stripe. Stripe receives the email address, plan and payment details you provide on its checkout page.',
   ],
   [
-    '6. Analytics and cookies',
-    'If analytics is enabled for this deployment, we use Google Analytics 4 to count page views and primary button clicks in aggregate. A session cookie keeps you signed in. Analytics cookies are not required to read the site and are never used to identify the content of a page you rebuilt.',
+    '5. Analytics and cookies',
+    'If analytics is enabled for this deployment, we use Google Analytics 4 to count page views and primary button clicks in aggregate. A session cookie keeps you signed in. Analytics cookies are not required to read the site and are never used to identify your private product work.',
   ],
   [
-    '7. Your choices',
+    '6. Your choices',
     'You can sign out at any time, manage or cancel a subscription from the billing page, and request deletion of your website account by emailing us. Deleting your account removes the website profile and plan record associated with it.',
   ],
   [
-    '8. Contact',
-    'For access, correction or deletion requests, email support@swarmrebuild.xyz.',
+    '7. Contact',
+    'For access, correction or deletion requests, email support@galaxyai.homes.',
   ],
 ] as const;
 
@@ -55,13 +51,13 @@ export default async function PrivacyPolicyPage({
   setRequestLocale(locale);
 
   return (
-    <main className="sw-legal-page">
-      <header className="sw-legal-head">
-        <p className="sw-eyebrow">Legal</p>
+    <article className="gx-legal-page">
+      <header className="gx-legal-head">
+        <p className="gx-eyebrow">Legal</p>
         <h1>Privacy Policy</h1>
-        <p className="sw-legal-updated">Last updated: 13 November 2026</p>
+        <p className="gx-legal-updated">Last updated: 13 November 2026</p>
       </header>
-      <div className="sw-legal-body">
+      <div className="gx-legal-body">
         {sections.map(([title, body]) => (
           <section key={title}>
             <h2>{title}</h2>
@@ -69,10 +65,10 @@ export default async function PrivacyPolicyPage({
           </section>
         ))}
       </div>
-      <p className="sw-legal-contact">
+      <p className="gx-legal-contact">
         Questions? Email{' '}
-        <a href="mailto:support@swarmrebuild.xyz">support@swarmrebuild.xyz</a>.
+        <a href="mailto:support@galaxyai.homes">support@galaxyai.homes</a>.
       </p>
-    </main>
+    </article>
   );
 }

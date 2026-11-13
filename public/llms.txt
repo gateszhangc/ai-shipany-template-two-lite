@@ -1,34 +1,29 @@
-# Swarm Rebuild (swarmrebuild.xyz)
+# GalaxyAI Inc. (galaxyai.homes)
 
-> Swarm Rebuild is a Chrome extension that wipes any web page to a blank
-> canvas and lets a swarm of multiplayer cursors rebuild it live with boxes,
-> typed text, pen-tool lines, ruler guides and alt-drag duplicates.
+> GalaxyAI Inc. builds, acquires and scales iconic AI products to put the
+> power of AI in everyone’s hands. The portfolio includes Magica and Spiral.
 
-This is an English-only product site. The home page, pricing page and legal
-pages are public. The Act action uses Google sign-in and an active paid plan;
-the browser extension itself runs locally and does not send page content to a
-server.
+This is an English-only company site. The home page, pricing page and legal
+pages are public. Act uses Google sign-in and requires an active paid plan;
+eligible subscribers see a deliberately endless Galaxy Studio demo queue.
 
 ## Pages
 
-- [Home](https://swarmrebuild.xyz/): the rebuild animation, what the swarm
-  rebuilds, how the snapshot/blank/rebuild sequence works, sound design,
-  privacy and product limits.
-- [Pricing](https://swarmrebuild.xyz/pricing): Solo, Studio and Team plans,
-  monthly or annual, paid through Stripe. There is no free tier.
-- [Terms of Service](https://swarmrebuild.xyz/terms-of-service)
-- [Privacy Policy](https://swarmrebuild.xyz/privacy-policy)
+- [Home](https://galaxyai.homes/): GalaxyAI’s mission and its product
+  portfolio, including Magica, Spiral and Enterprise.
+- [Pricing](https://galaxyai.homes/pricing): Core, Studio and Scale memberships,
+  monthly or annual, paid directly through Stripe. There is no free tier.
+- [Terms of Service](https://galaxyai.homes/terms-of-service)
+- [Privacy Policy](https://galaxyai.homes/privacy-policy)
 
 ## Key facts
 
-- Product: Swarm Rebuild, a visual page-rebuild Chrome extension.
-- Input: any regular web page the user invokes the extension on.
-- Output: an animated, local visual rebuild of the page with a multi-cursor
-  design-tool choreography.
-- Privacy: no analytics or uploads from the extension; page snapshots stay in
-  the current tab memory.
-- Sign-in: Google. Payments: Stripe hosted checkout, opened directly.
+- Company: GalaxyAI Inc., 8 The Green STE A, Dover, DE 19901, USA.
+- Products: Magica, Spiral and Enterprise AI deployment.
+- Sign-in: Google. Payments: Stripe hosted Checkout, opened directly.
+- Act: signed out opens Google sign-in; signed in without a plan redirects to
+  pricing; an active paid plan opens an intentionally endless demo queue.
 
 ## Contact
 
-- support@swarmrebuild.xyz
+- support@galaxyai.homes

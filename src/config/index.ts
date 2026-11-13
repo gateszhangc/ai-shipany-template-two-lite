@@ -6,15 +6,17 @@ import packageJson from '../../package.json';
 export type ConfigMap = Record<string, string>;
 
 export const envConfigs: ConfigMap = {
-  app_url: process.env.NEXT_PUBLIC_APP_URL ?? 'https://swarmrebuild.xyz',
-  app_name: process.env.NEXT_PUBLIC_APP_NAME ?? 'Swarm Rebuild',
+  app_url: process.env.NEXT_PUBLIC_APP_URL ?? 'https://galaxyai.homes',
+  app_name: process.env.NEXT_PUBLIC_APP_NAME ?? 'GalaxyAI',
   app_description:
     process.env.NEXT_PUBLIC_APP_DESCRIPTION ??
-    'Wipe any web page to a blank canvas and watch a swarm of multiplayer cursors rebuild it live.',
-  app_logo: process.env.NEXT_PUBLIC_APP_LOGO ?? '/swarm/logo-wordmark.svg',
-  app_favicon: process.env.NEXT_PUBLIC_APP_FAVICON ?? '/swarm/favicon.svg',
+    'GalaxyAI Inc. builds, acquires and scales iconic AI products to put the power of AI in everyone’s hands.',
+  app_logo:
+    process.env.NEXT_PUBLIC_APP_LOGO ?? '/galaxy/logo-mark-512.png',
+  app_favicon:
+    process.env.NEXT_PUBLIC_APP_FAVICON ?? '/galaxy/favicon-256.png',
   app_preview_image:
-    process.env.NEXT_PUBLIC_APP_PREVIEW_IMAGE ?? '/swarm/og.png',
+    process.env.NEXT_PUBLIC_APP_PREVIEW_IMAGE ?? '/galaxy/og.jpg',
   theme: process.env.NEXT_PUBLIC_THEME ?? 'default',
   appearance: process.env.NEXT_PUBLIC_APPEARANCE ?? 'light',
   locale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'en',

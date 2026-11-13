@@ -1,20 +1,13 @@
 {
-  "metadata": {
-    "title": "Swarm Rebuild Pricing — Paid Plans with Stripe Checkout",
-    "description": "Choose a Swarm Rebuild plan. Every tier is paid, billed securely by Stripe and unlocks the full cursor swarm. No free plan."
-  },
-  "messages": {
-    "current_plan": "Current plan",
-    "processing": "Opening Stripe"
-  },
   "page": {
-    "title": "Pick your swarm.",
-    "description": "One extension, one canvas, three levels of build speed. Every plan is paid, unlocks the complete cursor choreography and checks out directly on Stripe.",
+    "title": "Pricing",
+    "description": "Choose a paid GalaxyAI membership and continue directly to Stripe Checkout.",
     "sections": {
       "pricing": {
-        "id": "plans",
-        "title": "Swarm Rebuild plans",
-        "description": "No free tier. Cancel anytime.",
+        "id": "pricing",
+        "name": "pricing",
+        "title": "GalaxyAI membership",
+        "description": "One paid membership across the GalaxyAI portfolio.",
         "groups": [
           {
             "name": "monthly",
@@ -22,196 +15,192 @@
             "is_featured": true
           },
           {
-            "name": "yearly",
-            "title": "Annually",
-            "label": "Save 22%"
+            "name": "annual",
+            "title": "Annual",
+            "label": "Save 20%"
           }
         ],
         "items": [
           {
-            "title": "Solo",
-            "description": "For one curious builder who wants every cursor in the swarm.",
-            "features_title": "Includes",
-            "features": [
-              "Unlimited manual rebuilds",
-              "All five builder tools",
-              "Tour, replay and 1× / 2× / 3× speed",
-              "Synthesized sound and toolbar controls",
-              "Local-only page snapshots",
-              "Cancel anytime"
-            ],
-            "interval": "month",
-            "amount": 900,
+            "title": "Core",
+            "description": "For independent builders exploring what AI can take off their plate.",
             "currency": "USD",
-            "price": "$9",
+            "amount": 1900,
+            "price": "$19",
             "unit": "/mo",
-            "is_featured": false,
-            "tip": "Billed monthly through Stripe.",
-            "button": {
-              "title": "Continue to Stripe"
-            },
-            "product_id": "swarm-solo-monthly",
-            "product_name": "Swarm Rebuild Solo plan (monthly)",
+            "interval": "month",
+            "product_id": "galaxyai-core-monthly",
+            "product_name": "GalaxyAI Core membership (monthly)",
+            "plan_name": "Core",
             "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 30,
             "group": "monthly",
-            "plan_name": "Solo"
+            "tip": "Billed monthly through Stripe.",
+            "button": {
+              "title": "Continue to Stripe"
+            },
+            "features_title": "Inside Core",
+            "features": [
+              "Access to GalaxyAI portfolio products",
+              "Personal workspace and billing history",
+              "Standard Galaxy Studio queue",
+              "New product previews as they ship",
+              "Google account sign-in",
+              "Cancel anytime"
+            ]
           },
           {
             "title": "Studio",
-            "description": "For people recording, presenting and rebuilding pages all day.",
+            "description": "For people using AI every day across writing, research and product work.",
             "label": "Most popular",
-            "features_title": "Everything in Solo, plus",
-            "features": [
-              "3× swarm build speed",
-              "Priority demo queue placement",
-              "Clean recording mode and tour presets",
-              "Early access to new cursor behaviors",
-              "Media-rich page support",
-              "Cancel anytime"
-            ],
-            "interval": "month",
-            "amount": 1800,
             "currency": "USD",
-            "price": "$18",
+            "amount": 4900,
+            "price": "$49",
             "unit": "/mo",
+            "interval": "month",
+            "product_id": "galaxyai-studio-monthly",
+            "product_name": "GalaxyAI Studio membership (monthly)",
+            "plan_name": "Studio",
+            "payment_providers": ["stripe"],
+            "credits": 0,
+            "valid_days": 30,
+            "group": "monthly",
             "is_featured": true,
             "tip": "Billed monthly through Stripe.",
             "button": {
               "title": "Continue to Stripe"
             },
-            "product_id": "swarm-studio-monthly",
-            "product_name": "Swarm Rebuild Studio plan (monthly)",
+            "features_title": "Everything in Core, plus",
+            "features": [
+              "Priority Galaxy Studio queue",
+              "Higher product usage limits",
+              "Early access to acquired products",
+              "Shared workspace presets",
+              "Priority product support",
+              "Cancel anytime"
+            ]
+          },
+          {
+            "title": "Scale",
+            "description": "For teams standardising how AI shows up across the whole company.",
+            "currency": "USD",
+            "amount": 9900,
+            "price": "$99",
+            "unit": "/mo",
+            "interval": "month",
+            "product_id": "galaxyai-scale-monthly",
+            "product_name": "GalaxyAI Scale membership (monthly)",
+            "plan_name": "Scale",
             "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 30,
             "group": "monthly",
-            "plan_name": "Studio"
-          },
-          {
-            "title": "Team",
-            "description": "For teams turning every review and launch into a live rebuild.",
-            "features_title": "Everything in Studio, plus",
-            "features": [
-              "Shared rebuild presets",
-              "Dedicated demo queue lane",
-              "Priority support line",
-              "Team-ready billing records",
-              "Early access to future surfaces",
-              "Cancel anytime"
-            ],
-            "interval": "month",
-            "amount": 3600,
-            "currency": "USD",
-            "price": "$36",
-            "unit": "/mo",
-            "is_featured": false,
             "tip": "Billed monthly through Stripe.",
             "button": {
               "title": "Continue to Stripe"
             },
-            "product_id": "swarm-team-monthly",
-            "product_name": "Swarm Rebuild Team plan (monthly)",
-            "payment_providers": ["stripe"],
-            "credits": 0,
-            "valid_days": 30,
-            "group": "monthly",
-            "plan_name": "Team"
+            "features_title": "Everything in Studio, plus",
+            "features": [
+              "Team-ready workspace access",
+              "Highest product usage limits",
+              "Dedicated onboarding session",
+              "Enterprise product briefings",
+              "Named support channel",
+              "Cancel anytime"
+            ]
           },
           {
-            "title": "Solo",
-            "description": "For one curious builder who wants every cursor in the swarm.",
-            "features_title": "Includes",
-            "features": [
-              "Unlimited manual rebuilds",
-              "All five builder tools",
-              "Tour, replay and 1× / 2× / 3× speed",
-              "Synthesized sound and toolbar controls",
-              "Local-only page snapshots",
-              "Cancel anytime"
-            ],
-            "interval": "year",
-            "amount": 8400,
+            "title": "Core",
+            "description": "For independent builders exploring what AI can take off their plate.",
             "currency": "USD",
-            "price": "$7",
-            "original_price": "$9",
+            "amount": 18000,
+            "price": "$15",
+            "original_price": "$19",
             "unit": "/mo",
-            "is_featured": false,
-            "tip": "Billed annually through Stripe.",
-            "button": {
-              "title": "Continue to Stripe"
-            },
-            "product_id": "swarm-solo-yearly",
-            "product_name": "Swarm Rebuild Solo plan (annual)",
+            "interval": "year",
+            "product_id": "galaxyai-core-annual",
+            "product_name": "GalaxyAI Core membership (annual)",
+            "plan_name": "Core",
             "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 365,
-            "group": "yearly",
-            "plan_name": "Solo"
+            "group": "annual",
+            "tip": "$180 billed annually through Stripe.",
+            "button": {
+              "title": "Continue to Stripe"
+            },
+            "features_title": "Inside Core",
+            "features": [
+              "Access to GalaxyAI portfolio products",
+              "Personal workspace and billing history",
+              "Standard Galaxy Studio queue",
+              "New product previews as they ship",
+              "Google account sign-in",
+              "Cancel anytime"
+            ]
           },
           {
             "title": "Studio",
-            "description": "For people recording, presenting and rebuilding pages all day.",
+            "description": "For people using AI every day across writing, research and product work.",
             "label": "Most popular",
-            "features_title": "Everything in Solo, plus",
-            "features": [
-              "3× swarm build speed",
-              "Priority demo queue placement",
-              "Clean recording mode and tour presets",
-              "Early access to new cursor behaviors",
-              "Media-rich page support",
-              "Cancel anytime"
-            ],
-            "interval": "year",
-            "amount": 16800,
             "currency": "USD",
-            "price": "$14",
-            "original_price": "$18",
+            "amount": 46800,
+            "price": "$39",
+            "original_price": "$49",
             "unit": "/mo",
-            "is_featured": true,
-            "tip": "Billed annually through Stripe.",
-            "button": {
-              "title": "Continue to Stripe"
-            },
-            "product_id": "swarm-studio-yearly",
-            "product_name": "Swarm Rebuild Studio plan (annual)",
+            "interval": "year",
+            "product_id": "galaxyai-studio-annual",
+            "product_name": "GalaxyAI Studio membership (annual)",
+            "plan_name": "Studio",
             "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 365,
-            "group": "yearly",
-            "plan_name": "Studio"
+            "group": "annual",
+            "is_featured": true,
+            "tip": "$468 billed annually through Stripe.",
+            "button": {
+              "title": "Continue to Stripe"
+            },
+            "features_title": "Everything in Core, plus",
+            "features": [
+              "Priority Galaxy Studio queue",
+              "Higher product usage limits",
+              "Early access to acquired products",
+              "Shared workspace presets",
+              "Priority product support",
+              "Cancel anytime"
+            ]
           },
           {
-            "title": "Team",
-            "description": "For teams turning every review and launch into a live rebuild.",
-            "features_title": "Everything in Studio, plus",
-            "features": [
-              "Shared rebuild presets",
-              "Dedicated demo queue lane",
-              "Priority support line",
-              "Team-ready billing records",
-              "Early access to future surfaces",
-              "Cancel anytime"
-            ],
-            "interval": "year",
-            "amount": 33600,
+            "title": "Scale",
+            "description": "For teams standardising how AI shows up across the whole company.",
             "currency": "USD",
-            "price": "$28",
-            "original_price": "$36",
+            "amount": 94800,
+            "price": "$79",
+            "original_price": "$99",
             "unit": "/mo",
-            "is_featured": false,
-            "tip": "Billed annually through Stripe.",
-            "button": {
-              "title": "Continue to Stripe"
-            },
-            "product_id": "swarm-team-yearly",
-            "product_name": "Swarm Rebuild Team plan (annual)",
+            "interval": "year",
+            "product_id": "galaxyai-scale-annual",
+            "product_name": "GalaxyAI Scale membership (annual)",
+            "plan_name": "Scale",
             "payment_providers": ["stripe"],
             "credits": 0,
             "valid_days": 365,
-            "group": "yearly",
-            "plan_name": "Team"
+            "group": "annual",
+            "tip": "$948 billed annually through Stripe.",
+            "button": {
+              "title": "Continue to Stripe"
+            },
+            "features_title": "Everything in Studio, plus",
+            "features": [
+              "Team-ready workspace access",
+              "Highest product usage limits",
+              "Dedicated onboarding session",
+              "Enterprise product briefings",
+              "Named support channel",
+              "Cancel anytime"
+            ]
           }
         ]
       }

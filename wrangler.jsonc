@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "swarmrebuild-xyz",
+  "name": "galaxyai-homes",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
@@ -9,9 +9,12 @@
   "workers_dev": true,
   "preview_urls": true,
   "upload_source_maps": false,
-  "vars": { "NEXT_PUBLIC_APP_URL": "https://swarmrebuild.xyz", "PUBLIC_SITE_URL": "https://swarmrebuild.xyz" },
+  "vars": {
+    "NEXT_PUBLIC_APP_URL": "https://galaxyai.homes",
+    "PUBLIC_SITE_URL": "https://galaxyai.homes"
+  },
   "routes": [
-    { "pattern": "swarmrebuild.xyz", "custom_domain": true },
-    { "pattern": "www.swarmrebuild.xyz", "custom_domain": true }
+    { "pattern": "galaxyai.homes", "custom_domain": true },
+    { "pattern": "www.galaxyai.homes", "custom_domain": true }
   ]
 }

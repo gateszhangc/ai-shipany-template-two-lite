@@ -1,6 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { SwarmPricing } from '@/shared/blocks/swarm/pricing';
+import { GalaxyPricing } from '@/shared/blocks/galaxy/pricing';
 import { getMetadata } from '@/shared/lib/seo';
 import { getCurrentSubscription } from '@/shared/models/subscription';
 import { getUserInfo } from '@/shared/models/user';
@@ -9,11 +9,11 @@ import { Pricing as PricingType } from '@/shared/types/blocks/pricing';
 export const revalidate = 3600;
 
 export const generateMetadata = getMetadata({
-  title: 'Swarm Rebuild Pricing — Paid Plans with Stripe Checkout',
+  title: 'Pricing — GalaxyAI Membership',
   description:
-    'Choose a Swarm Rebuild plan. Every tier is paid, billed securely by Stripe and unlocks the full cursor swarm. No free plan.',
+    'Choose a paid GalaxyAI membership. Every plan opens directly on Stripe Checkout. There is no free tier and no payment-provider picker.',
   canonicalUrl: '/pricing',
-  imageUrl: '/swarm/og.png',
+  imageUrl: '/galaxy/og.jpg',
 });
 
 export default async function PricingPage({
@@ -39,13 +39,20 @@ export default async function PricingPage({
 
   return (
     <>
-      <section className="sw-page-hero">
-        <p className="sw-eyebrow">One canvas · three ways in</p>
-        <h1>{t('page.title')}</h1>
-        <p>{t('page.description')}</p>
+      <section className="gx-page-hero">
+        <div className="gx-page-orbit" aria-hidden="true" />
+        <p className="gx-eyebrow">GalaxyAI membership</p>
+        <h1>Build in a bigger orbit.</h1>
+        <p>
+          One membership across the GalaxyAI portfolio. Choose a plan, continue
+          straight to Stripe, then use Act to enter the Studio queue.
+        </p>
       </section>
 
-      <SwarmPricing section={section} currentSubscription={currentSubscription} />
+      <GalaxyPricing
+        section={section}
+        currentSubscription={currentSubscription}
+      />
     </>
   );
 }
